@@ -1,0 +1,613 @@
+---
+const WHATSAPP = 'https://wa.me/526693306631';
+
+const dishes = [
+  { name: 'Tostada Marde Fondo', count: '01', price: '$165', platePos: 'center', desc: 'Paté de atún ahumado, pepino, camarón entero, pulpo y aguacate.', phLabel: 'Foto: tostada-buchona', cardBg: '#fff', shadow: '0 22px 46px rgba(42,48,71,0.10)', titleColor: '#bd7a5e', descColor: '#5b5f6b', priceColor: '#2a3047', badgeBg: '#bd7a5e', badgeColor: '#fff' },
+  { name: 'Aguachilo Macho', count: '02', price: '$215', platePos: '50% 28%', desc: 'Camarón mariposa en salsa macha con cacahuate tostado, pepino y aguacate.', phLabel: 'Foto: aguachiles', cardBg: '#2a3047', shadow: '0 26px 54px rgba(42,48,71,0.28)', titleColor: '#fff', descColor: '#b9bdc8', priceColor: '#e0b15f', badgeBg: '#e0b15f', badgeColor: '#2a3047' },
+  { name: 'Camarones Zarandeados', count: '03', price: '$275', platePos: 'center', desc: '220 g de camarón asado al estilo El Rosario, con su salsa de la casa.', phLabel: 'Foto: camarones-zarandeados', cardBg: '#fff', shadow: '0 22px 46px rgba(42,48,71,0.10)', titleColor: '#bd7a5e', descColor: '#5b5f6b', priceColor: '#2a3047', badgeBg: '#bd7a5e', badgeColor: '#fff' },
+  { name: 'Salmón al Grill', count: '04', price: '$360', platePos: 'center', desc: 'Filete a la parrilla sobre puré de papa, aceite de cilantro y maracuyá.', phLabel: 'Foto: salmon-grill', cardBg: '#fff', shadow: '0 22px 46px rgba(42,48,71,0.10)', titleColor: '#bd7a5e', descColor: '#5b5f6b', priceColor: '#2a3047', badgeBg: '#bd7a5e', badgeColor: '#fff' },
+];
+
+const gallery = [
+  { phLabel: 'Foto: patio', alt: 'Patio al aire libre del restaurante de mariscos Mar de Fondo en Mazatlán' },
+  { phLabel: 'Foto: aguachiles', alt: 'Aguachiles de camarón frescos en Mar de Fondo Mazatlán' },
+  { phLabel: 'Foto: camarones-zarandeados', alt: 'Camarones zarandeados al estilo El Rosario' },
+  { phLabel: 'Foto: salmon-grill', alt: 'Salmón al grill sobre puré de papa en Mar de Fondo' },
+  { phLabel: 'Foto: tostada-buchona', alt: 'Tostada de mariscos con atún y aguacate' },
+  { phLabel: 'Foto: bichola', alt: 'Cerveza artesanal Bichola de Mazatlán' },
+  { phLabel: 'Foto: ambiente-barra', alt: 'Barra y mixología de autor en Mar de Fondo' },
+  { phLabel: 'Foto: ambiente-mesa', alt: 'Mesa servida con mariscos frescos y bebidas' },
+];
+
+const faqs = [
+  { q: '¿Dónde comer mariscos en Mazatlán?', a: 'Mar de Fondo, en Mariano Escobedo 51, Centro, es una de las mejores opciones para comer mariscos frescos en Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados preparados con la pesca del día.' },
+  { q: '¿Mar de Fondo tiene servicio para llevar?', a: 'Sí. Puedes ordenar para llevar escribiéndonos por WhatsApp al 669 330 6631; preparamos tu pedido al momento con el mismo producto fresco.' },
+  { q: '¿Cuál es el horario de Mar de Fondo?', a: 'Abrimos de martes a jueves de 13:00 a 23:00 y de viernes a domingo de 13:00 a 01:00. Los lunes permanecemos cerrados.' },
+  { q: '¿Se puede reservar mesa en Mar de Fondo?', a: 'Claro. Reserva en segundos por WhatsApp al 669 330 6631. Recomendamos apartar mesa los fines de semana, cuando las mejores noches se llenan rápido.' },
+  { q: '¿Qué tipo de mariscos sirven?', a: 'Trabajamos pescado y marisco fresco del Pacífico: atún, pulpo, camarón, callo, ostión y almeja chocolata, además de cortes a la parrilla y cerveza artesanal Bichola.' },
+];
+
+const menuSections = [
+  { cat: 'Tostadas y Ceviches', items: [
+    { name: 'Marde Fondo', price: '$165', desc: 'Paté de atún ahumado, pepino, camarón, pulpo y aguacate.' },
+    { name: 'La Aguachila', price: '$135', desc: 'Mayo de chipotle y camarón mariposa en salsa serranita.' },
+    { name: 'Ahí Viene La Buchona', price: '$145', desc: 'Mayo de habanero, atún, aguacate y hoja de oro.' },
+    { name: 'Oriental', price: '$155 · cev. $310', desc: 'Salmón, atún y mango en miso con crema de aguacate y cacahuate.' },
+    { name: 'Pulpo Macho', price: '$150 · cev. $215', desc: 'Pulpo en salsa macha, cacahuate y aguacate.' },
+    { name: 'Mazatleca', price: '$145 · cev. $210', desc: 'Ceviche de camarón cocido, pepino, cebolla y aguacate.' },
+  ]},
+  { cat: 'Para Empezar', items: [
+    { name: 'Camarones Zarandeados 220g', price: '$275', desc: 'Al estilo El Rosario, asados al carbón.' },
+    { name: 'Aguachile de Ribeye', price: '$485', desc: 'Chiltepín tatemado, ajo, aceite de oliva y aguacate.' },
+    { name: 'Ostiones / Almejas Chocolatas', price: '$275', desc: '6 piezas zarandeadas en salsas negras de la casa.' },
+    { name: 'Shot de Ostión', price: '$95', desc: 'Con clamato y salsa picante para arrancar la tarde.' },
+    { name: 'Tacos de Frijol con Queso', price: '$80', desc: 'Orden de 3 para acompañar.' },
+    { name: 'Guacamole con Chicharrón', price: '$85', desc: 'Para botanear.' },
+  ]},
+  { cat: 'Aguachiles y Tiraditos', items: [
+    { name: 'Aguachilo', price: 'crudo $195 · cocido $215', desc: 'Verde, rojo o tatemado. Camarón mariposa, pepino y aguacate.' },
+    { name: 'Aguachilo Macho', price: 'crudo $215 · cocido $225', desc: 'En salsa macha con cacahuate tostado.' },
+    { name: 'Aguachilo de Ostión / Almeja', price: '$235', desc: 'En salsa, con pepino, cebolla y aguacate.' },
+    { name: 'Tiradito de Lomo de Atún', price: '$290', desc: 'Salsas negras, chile, pepino y aguacate.' },
+  ]},
+  { cat: 'Especialidades', items: [
+    { name: 'El Faro', price: '$295', desc: 'Ceviche surtido en salsas negras con clamato y aguacate.' },
+    { name: 'Campechano', price: '$250', desc: 'Pulpo, camarón, ostión y almeja en caldo de camarón.' },
+    { name: 'Oyster', price: '$225', desc: 'Ostiones preparados (6 pzas) con salsas de la casa.' },
+    { name: 'Chocolato', price: '$195', desc: 'Almeja chocolata en salsas negras, tomate y cebolla.' },
+  ]},
+  { cat: 'Pescados y Carnes', items: [
+    { name: 'Salmón al Grill', price: '$360', desc: 'Puré de papa, aceite de cilantro y salsa de maracuyá.' },
+    { name: 'Pescado a la Plancha', price: '$360', desc: 'Crema de papa, ajo rostizado y aire de cilantro.' },
+    { name: 'Pescado Zarandeado', price: '$540 / kg', desc: 'En nuestra salsa, con tacos de frijol y guacamole.' },
+    { name: 'Ribeye Premium 300g', price: '$510', desc: 'Al término, con salsa tatemada y pico de gallo.' },
+    { name: 'Arrachera 250g', price: '$280', desc: 'Con papas a la francesa, guacamole y salsas.' },
+  ]},
+  { cat: 'Tacos', items: [
+    { name: 'Vampiro de Jaiba', price: '$85', desc: 'Maíz azul, queso fundido y jaiba a la mantequilla.' },
+    { name: 'Taco de Carnitas de Atún', price: '$85', desc: 'Guacamole, atún en manteca y cebolla curtida.' },
+    { name: 'Taco de Pescado Zarandeado', price: '$85', desc: 'Aguacate, cebolla curtida y cilantro.' },
+    { name: 'Chicharrón de Cabeza de Pulpo', price: '$100', desc: 'Costra de queso, aguacate y mayo de habanero.' },
+  ]},
+  { cat: 'Hamburguesas', items: [
+    { name: 'Hamburguesa de Camarón', price: '$195', desc: 'Con tocino, mayo de chipotle y papas a la francesa.' },
+    { name: 'Hamburguesa de Res', price: '$185', desc: 'Mezcla con tocino ahumado, pan brioche y papas.' },
+    { name: 'Papas a la Francesa', price: '$80', desc: 'Orden para acompañar o botanear.' },
+  ]},
+  { cat: 'Los Tragos', items: [
+    { name: 'Cerveza Bichola Artesanal', price: '$75', desc: 'IPA o Blond Ale, hecha en Mazatlán.' },
+    { name: 'Pacífico / Modelo / Corona', price: '$45 – 55', desc: 'Bien frías; ballena Pacífico $85.' },
+    { name: 'Mezcal', price: '$145 – 180', desc: 'Amores Espadín, 400 Conejos o Dulce Infierno.' },
+    { name: 'Tequila', price: '$110 – 165', desc: 'Don Julio 70, Maestro Dobel o Herradura Reposado.' },
+    { name: 'Limonadas y Aguas Frescas', price: '$35 – 40', desc: 'Limonada natural o mineral, agua de jamaica y de pepino.' },
+  ]},
+];
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <title>Restaurante de mariscos en Mazatlán | Mar de Fondo</title>
+  <meta name="description" content="Mar de Fondo es un restaurante de mariscos frescos en el Centro de Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados con mixología de autor. Reserva por WhatsApp." />
+  <meta name="keywords" content="restaurante de mariscos en Mazatlán, mariscos frescos en Mazatlán, dónde comer mariscos en Mazatlán, ceviches Mazatlán, aguachiles, Mar de Fondo" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:title" content="Restaurante de mariscos en Mazatlán | Mar de Fondo" />
+  <meta property="og:description" content="Mariscos frescos del día, ceviches y aguachiles en el Centro de Mazatlán. Reserva por WhatsApp." />
+  <meta name="geo.region" content="MX-SIN" />
+  <meta name="geo.placename" content="Mazatlán" />
+  <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@graph":[{"@type":"Restaurant","name":"Mar de Fondo","description":"Restaurante de mariscos frescos en el Centro de Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados.","servesCuisine":["Mariscos","Seafood","Mexican"],"priceRange":"$$","telephone":"+52-669-330-6631","url":"https://mardefondo.mx","address":{"@type":"PostalAddress","streetAddress":"Mariano Escobedo 51, Centro","addressLocality":"Mazatlán","addressRegion":"Sinaloa","postalCode":"82000","addressCountry":"MX"},"geo":{"@type":"GeoCoordinates","latitude":23.2061,"longitude":-106.4197},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Tuesday","Wednesday","Thursday"],"opens":"13:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Friday","Saturday","Sunday"],"opens":"13:00","closes":"01:00"}],"acceptsReservations":"True"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Dónde comer mariscos en Mazatlán?","acceptedAnswer":{"@type":"Answer","text":"Mar de Fondo, en Mariano Escobedo 51, Centro, es una de las mejores opciones para comer mariscos frescos en Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados preparados con la pesca del día."}},{"@type":"Question","name":"¿Mar de Fondo tiene servicio para llevar?","acceptedAnswer":{"@type":"Answer","text":"Sí. Puedes ordenar para llevar escribiéndonos por WhatsApp al 669 330 6631; preparamos tu pedido al momento."}},{"@type":"Question","name":"¿Cuál es el horario de Mar de Fondo?","acceptedAnswer":{"@type":"Answer","text":"Abrimos de martes a jueves de 13:00 a 23:00 y de viernes a domingo de 13:00 a 01:00. Los lunes permanecemos cerrados."}},{"@type":"Question","name":"¿Se puede reservar mesa en Mar de Fondo?","acceptedAnswer":{"@type":"Answer","text":"Claro. Reserva en segundos por WhatsApp al 669 330 6631. Recomendamos apartar mesa los fines de semana."}},{"@type":"Question","name":"¿Qué tipo de mariscos sirven?","acceptedAnswer":{"@type":"Answer","text":"Trabajamos pescado y marisco fresco del Pacífico: atún, pulpo, camarón, callo, ostión y almeja chocolata, además de cortes y cerveza artesanal Bichola."}}]}]})}></script>
+  <style is:global>
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{margin:0;background:#f5f1ea;color:#34373f;font-family:Jost,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    ::selection{background:#bd7a5e;color:#fff;}
+    a,button{-webkit-tap-highlight-color:transparent;}
+    @keyframes mfReveal{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:none;}}
+    @keyframes mfFloatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+    @keyframes mfRing{0%{box-shadow:0 0 0 0 rgba(189,122,94,.5);}70%{box-shadow:0 0 0 16px rgba(189,122,94,0);}100%{box-shadow:0 0 0 0 rgba(189,122,94,0);}}
+    @keyframes mfTwinkle{0%,100%{opacity:.3;transform:scale(.85);}50%{opacity:.9;transform:scale(1.05);}}
+    [data-reveal]{opacity:1;}
+    [data-reveal].mf-in{animation:mfReveal .85s cubic-bezier(.22,.61,.36,1) both;}
+    .mf-burger{display:none;}
+    .mf-burger span{display:block;width:23px;height:2px;background:#2a3047;border-radius:2px;transition:transform .3s ease, opacity .3s ease;}
+    .mf-burger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+    .mf-burger.open span:nth-child(2){opacity:0;}
+    .mf-burger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+    #mf-overlay{position:fixed;inset:0;z-index:135;opacity:0;pointer-events:none;background:rgba(42,48,71,.45);transition:opacity .35s ease;}
+    #mf-overlay.open{opacity:1;pointer-events:auto;}
+    .mf-dishcard{transition:transform .4s ease, box-shadow .4s ease;}
+    .mf-dishcard:hover{transform:translateY(-10px);}
+    .mf-dishcard:hover .mf-plate{transform:translateY(-8px) rotate(4deg);}
+    .mf-cta-full{transition:transform .3s ease, box-shadow .3s ease, background .3s ease;}
+    .mf-cta-full:hover{transform:translateY(-2px);}
+    .mf-cta-full:active{transform:scale(.98);}
+    .mf-nav-cta:hover{background:#3a4258 !important;}
+    .mf-gal-chip:hover{transform:translateY(-5px);}
+    .mf-social:hover{border-color:rgba(189,122,94,.6); background:rgba(189,122,94,.08);}
+    .mf-fab:hover{transform:scale(1.08); box-shadow:0 16px 40px rgba(37,211,102,.6);}
+    .mf-fab:active{transform:scale(.95);}
+    .mf-galitem .mf-zoom{transition:transform .7s ease;}
+    .mf-galitem:hover .mf-galov{background:rgba(42,48,71,.4) !important;}
+    .mf-galitem:hover .mf-galic{opacity:1 !important; transform:scale(1) !important;}
+    .mf-galitem:hover .mf-zoom{transform:scale(1.09);}
+    .mf-ph{position:relative; background:repeating-linear-gradient(135deg, rgba(189,122,94,0.12) 0 14px, rgba(42,48,71,0.07) 14px 28px);}
+    .mf-ph::after{content:attr(data-label); position:absolute; left:14px; bottom:14px; padding:6px 12px; border-radius:6px; background:rgba(245,241,234,0.92); color:#5b5f6b; font-size:11px; letter-spacing:.04em;}
+    @media (max-width: 980px){
+      .mf-hero{ grid-template-columns:1fr !important; }
+      .mf-hero-art{ min-height:460px !important; }
+      .mf-split{ grid-template-columns:1fr !important; }
+      .mf-split-imgwrap{ order:-1; }
+      .mf-dishes{ grid-template-columns:repeat(2,1fr) !important; }
+    }
+    @media (max-width: 860px){
+      .mf-burger{ display:flex !important; }
+      #mf-navmenu{
+        position:fixed; top:0; right:0; height:100dvh; width:min(84vw,320px);
+        flex-direction:column !important; align-items:stretch !important; justify-content:flex-start !important;
+        gap:2px !important;
+        background:rgba(245,241,234,.99); backdrop-filter:blur(14px);
+        border-left:1px solid rgba(189,122,94,.22);
+        padding:94px 26px 32px !important;
+        transform:translateX(106%); transition:transform .42s cubic-bezier(.4,0,.2,1);
+        box-shadow:-24px 0 60px rgba(42,48,71,.18); z-index:140;
+      }
+      #mf-navmenu.open{ transform:translateX(0); }
+      #mf-navmenu > a:not(.mf-nav-cta){ font-size:19px !important; padding:15px 2px !important; border-bottom:1px solid rgba(42,48,71,.09); color:#2a3047 !important; }
+      #mf-navmenu .mf-nav-cta{ width:100%; justify-content:center; margin-top:20px; }
+    }
+    @media (max-width: 640px){
+      .mf-dishes{ grid-template-columns:1fr !important; max-width:340px; margin-left:auto; margin-right:auto; }
+      .mf-cta-full{ width:100%; justify-content:center; }
+      .mf-hero-btns{ flex-direction:column; align-items:stretch !important; }
+      .mf-deco-hide{ display:none !important; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; }
+    }
+    summary::-webkit-details-marker{ display:none; }
+    summary{ list-style:none; }
+    details[open] .mf-faq-plus{ transform:rotate(45deg); }
+  </style>
+</head>
+<body>
+<div style="background:#f5f1ea; color:#34373f; font-family:Jost,system-ui,sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative;">
+
+  <span id="top"></span>
+
+  <!-- NAV -->
+  <nav id="mf-nav" style="position:fixed; top:0; left:0; right:0; z-index:120; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:18px clamp(20px,5vw,60px); transition:background .4s ease, box-shadow .4s ease, padding .4s ease;">
+    <a href="#top" style="display:flex; align-items:center; gap:11px; text-decoration:none; color:#2a3047;">
+      <span style="display:flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%; border:1.5px solid #bd7a5e;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1.5" stroke-linecap="round"><path d="M2 10c2 0 2 1.6 4 1.6S8 10 10 10s2 1.6 4 1.6S16 10 18 10s2 1.6 4 1.6"></path><path d="M2 15c2 0 2 1.6 4 1.6S8 15 10 15s2 1.6 4 1.6S16 15 18 15s2 1.6 4 1.6"></path></svg>
+      </span>
+      <span style="display:flex; flex-direction:column; line-height:1;">
+        <span style="font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:700; letter-spacing:0.04em; color:#2a3047;">Mar de Fondo</span>
+        <span style="font-size:9.5px; letter-spacing:0.42em; text-transform:uppercase; color:#bd7a5e; margin-top:2px;">Mariscos · Mazatlán</span>
+      </span>
+    </a>
+    <div id="mf-navmenu" style="display:flex; align-items:center; gap:clamp(16px,2.6vw,38px); justify-content:flex-end;">
+      <a href="#esencia" style="text-decoration:none; color:#5b5f6b; font-size:14px; letter-spacing:0.04em;">Nosotros</a>
+      <a href="#carta" style="text-decoration:none; color:#5b5f6b; font-size:14px; letter-spacing:0.04em;">Menú</a>
+      <a href="#experiencia" style="text-decoration:none; color:#5b5f6b; font-size:14px; letter-spacing:0.04em;">Experiencia</a>
+      <a href="#ubicacion" style="text-decoration:none; color:#5b5f6b; font-size:14px; letter-spacing:0.04em;">Ubicación</a>
+      <a href={WHATSAPP} target="_blank" rel="noopener" class="mf-nav-cta" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; padding:11px 22px; border-radius:7px; background:#2a3047; color:#f5f1ea; font-weight:500; font-size:14px; letter-spacing:0.02em; transition:background .3s ease, transform .3s ease;">
+        Reservar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e0b15f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
+    <button class="mf-burger" id="mf-burger" aria-label="Abrir menú" aria-expanded="false" style="flex-direction:column; gap:5px; align-items:center; justify-content:center; width:46px; height:46px; border:1px solid rgba(42,48,71,0.18); border-radius:11px; background:rgba(255,255,255,0.5); cursor:pointer; padding:0; z-index:150;">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div id="mf-overlay"></div>
+
+  <!-- HERO -->
+  <header class="mf-hero" style="display:grid; grid-template-columns:1.02fr 1fr; gap:clamp(28px,5vw,68px); align-items:center; max-width:1280px; margin:0 auto; padding:clamp(120px,15vh,176px) clamp(20px,5vw,60px) clamp(60px,8vw,96px);">
+    <div data-reveal style="position:relative;">
+      <svg class="mf-deco-hide" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1.1" style="position:absolute; top:-26px; left:-6px; opacity:.55; animation:mfTwinkle 4s ease-in-out infinite;"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"></path></svg>
+      <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:18px;">
+        <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+        <span style="font-size:12.5px; letter-spacing:0.28em; text-transform:uppercase; color:#bd7a5e; font-weight:500;">Mariscos frescos · El Centro, Mazatlán</span>
+      </div>
+      <h1 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(44px,6.4vw,82px); line-height:1.02; margin:0 0 22px; color:#bd7a5e;"><span style="display:block; font-family:Jost,sans-serif; font-size:clamp(13px,1.5vw,16px); font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#2a3047; margin-bottom:16px;">Restaurante de mariscos en Mazatlán</span>El sabor del mar,<br /><span style="color:#2a3047; font-style:italic;">como nunca lo<br />has vivido</span></h1>
+      <p style="color:#5b5f6b; font-size:clamp(16px,1.8vw,18.5px); line-height:1.7; margin:0 0 34px; max-width:445px;">Los mariscos más frescos de Mazatlán: ceviches, aguachiles y camarones zarandeados, con mixología de autor en el patio más relajado del Centro.</p>
+      <div class="mf-hero-btns" style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <a href={WHATSAPP} target="_blank" rel="noopener" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; padding:16px 28px; min-height:54px; border-radius:8px; background:#2a3047; color:#f5f1ea; font-weight:500; font-size:16px; box-shadow:0 14px 30px rgba(42,48,71,0.22);">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="#25D366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24z"></path></svg>
+          Reservar por WhatsApp
+        </a>
+        <a href="#platillos" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:9px; text-decoration:none; padding:16px 26px; min-height:54px; border-radius:8px; background:#bd7a5e; color:#fff; font-weight:500; font-size:16px;">
+          Ver el menú
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+      <div style="display:flex; align-items:center; gap:26px; margin-top:40px; flex-wrap:wrap;">
+        <div><div style="font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:#2a3047;">+40</div><div style="font-size:12.5px; color:#8a8578; letter-spacing:0.04em;">platillos en carta</div></div>
+        <span style="width:1px; height:34px; background:rgba(42,48,71,0.15);"></span>
+        <div><div style="font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:#2a3047;">+20</div><div style="font-size:12.5px; color:#8a8578; letter-spacing:0.04em;">tostadas y ceviches</div></div>
+      </div>
+    </div>
+
+    <!-- hero art -->
+    <div class="mf-hero-art" data-reveal style="position:relative; min-height:540px;">
+      <div style="position:absolute; inset:4% 0 6% 12%; border-radius:14px 130px 14px 14px; overflow:hidden; box-shadow:0 30px 70px rgba(42,48,71,0.22);">
+        <div class="mf-ph" data-label="Foto: patio" role="img" aria-label="Patio al aire libre del restaurante de mariscos Mar de Fondo en el Centro de Mazatlán" style="position:absolute; inset:0; animation:mfFloatY 9s ease-in-out infinite;"></div>
+        <div style="position:absolute; inset:0; background:linear-gradient(160deg, rgba(42,48,71,0.05), rgba(42,48,71,0.22));"></div>
+      </div>
+      <!-- floating plate -->
+      <div class="mf-deco-hide" style="position:absolute; top:-2%; left:-4%; width:clamp(140px,26%,210px); aspect-ratio:1; border-radius:50%; overflow:hidden; box-shadow:0 24px 50px rgba(42,48,71,0.28); border:5px solid #f5f1ea; animation:mfFloatY 7s ease-in-out infinite;">
+        <div class="mf-ph" data-label="Foto: aguachiles" style="position:absolute; inset:0; background-position:50% 30%;"></div>
+      </div>
+      <!-- gallery chip -->
+      <a href="#galeria" class="mf-deco-hide mf-gal-chip" style="position:absolute; right:-2%; bottom:2%; width:clamp(150px,42%,196px); text-decoration:none; background:#2a3047; color:#f5f1ea; border-radius:14px 14px 14px 60px; padding:20px 22px; box-shadow:0 22px 46px rgba(42,48,71,0.32); transition:transform .35s ease;">
+        <div style="font-family:'Cormorant Garamond',serif; font-size:26px; line-height:1.05; font-weight:500;">Nuestra<br />Galería</div>
+        <div style="display:flex; justify-content:flex-end; margin-top:18px;"><span style="display:flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%; background:#bd7a5e;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></div>
+      </a>
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#2a3047" stroke-width="0.9" style="position:absolute; top:14%; right:6%; opacity:.5; animation:mfTwinkle 5s ease-in-out infinite .5s;"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"></path></svg>
+    </div>
+  </header>
+
+  <!-- band: phone strip -->
+  <div data-reveal style="border-top:1px solid rgba(42,48,71,0.08); border-bottom:1px solid rgba(42,48,71,0.08); background:#efe8df;">
+    <div style="max-width:1280px; margin:0 auto; padding:16px clamp(20px,5vw,60px); display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:18px;">
+        <a href="https://www.instagram.com/mardefondo_mzt" target="_blank" rel="noopener" aria-label="Instagram" style="width:34px; height:34px; border-radius:50%; border:1px solid rgba(189,122,94,.45); display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.1" fill="#bd7a5e"></circle></svg></a>
+        <a href="https://www.facebook.com/share/1DhLhmdpEu/" target="_blank" rel="noopener" aria-label="Facebook" style="width:34px; height:34px; border-radius:50%; border:1px solid rgba(189,122,94,.45); display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#bd7a5e"><path d="M14 8h2V5h-2c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.4-3H14V8.5c0-.3.2-.5.5-.5z"></path></svg></a>
+        <span style="font-size:13px; letter-spacing:0.16em; text-transform:uppercase; color:#8a8578;">@mardefondo_mzt</span>
+      </div>
+      <a href="tel:+526693306631" style="text-decoration:none; color:#2a3047; font-size:clamp(17px,2vw,21px); font-weight:500; letter-spacing:0.04em; display:flex; align-items:center; gap:9px;"><span style="color:#bd7a5e;">✦</span> +52 669 330 6631</a>
+    </div>
+  </div>
+
+  <!-- ESENCIA -->
+  <section id="esencia" style="position:relative; max-width:1280px; margin:0 auto; padding:clamp(80px,11vw,140px) clamp(20px,5vw,60px);">
+    <div class="mf-split" style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(36px,6vw,80px); align-items:center;">
+      <div class="mf-split-imgwrap" data-reveal style="position:relative;">
+        <div style="position:relative; width:min(440px,100%); aspect-ratio:1; margin:0 auto; border-radius:50%; overflow:hidden; box-shadow:0 34px 70px rgba(42,48,71,0.2);">
+          <div class="mf-ph" data-label="Foto: tostada-buchona" role="img" aria-label="Tostada de mariscos frescos con atún, camarón y aguacate en Mar de Fondo" style="position:absolute; inset:0;"></div>
+        </div>
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1" style="position:absolute; top:-6px; right:8%; opacity:.6; animation:mfTwinkle 4.5s ease-in-out infinite;"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"></path></svg>
+        <div style="position:absolute; bottom:4%; left:2%; background:#fff; border-radius:14px; padding:14px 20px; box-shadow:0 18px 40px rgba(42,48,71,0.16); display:flex; align-items:center; gap:12px;">
+          <span style="font-family:'Cormorant Garamond',serif; font-size:34px; font-weight:600; color:#bd7a5e; line-height:1;">100%</span>
+          <span style="font-size:12.5px; color:#5b5f6b; line-height:1.35;">producto fresco<br />de la pesca del día</span>
+        </div>
+      </div>
+      <div data-reveal style="position:relative;">
+        <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:16px;">
+          <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+          <span style="font-size:12.5px; letter-spacing:0.28em; text-transform:uppercase; color:#bd7a5e; font-weight:500;">Sobre nosotros</span>
+        </div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(38px,5.2vw,68px); line-height:1.04; margin:0 0 22px; color:#bd7a5e;">Mariscos frescos en Mazatlán,<br /><span style="color:#2a3047; font-style:italic;">desde la lonja a tu mesa</span></h2>
+        <p style="color:#5b5f6b; font-size:17px; line-height:1.75; margin:0 0 18px; max-width:480px;">En Mar de Fondo somos un restaurante de mariscos en el corazón de Mazatlán. Trabajamos solo con pescado y marisco fresco del día, seleccionado cada mañana en la lonja: cada tostada, cada aguachile y cada coctel nacen de una idea simple, respetar el sabor del mar.</p>
+        <p style="color:#5b5f6b; font-size:17px; line-height:1.75; margin:0 0 32px; max-width:480px;">Mariscos zarandeados al estilo El Rosario, ceviches de autor y cerveza artesanal Bichola bien fría, en el patio más relajado del Centro.</p>
+        <a href="#platillos" class="mf-cta-full" style="display:inline-flex; align-items:center; gap:10px; text-decoration:none; padding:15px 28px; border-radius:8px; background:#2a3047; color:#f5f1ea; font-weight:500; font-size:15px;">
+          Descubrir el menú
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e0b15f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATILLOS DESTACADOS -->
+  <section id="platillos" style="background:#efe8df; padding:clamp(80px,11vw,130px) clamp(20px,5vw,60px);">
+    <div data-reveal style="text-align:center; max-width:640px; margin:0 auto clamp(56px,7vw,80px);">
+      <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:16px;">
+        <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+        <span style="font-size:12.5px; letter-spacing:0.28em; text-transform:uppercase; color:#bd7a5e; font-weight:500;">Favoritos de la casa</span>
+        <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+      </div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(40px,5.6vw,72px); line-height:1.02; margin:0 0 16px; color:#2a3047;">Lo que el mar nos da</h2>
+      <p style="color:#5b5f6b; font-size:17px; line-height:1.65; margin:0;">Los imprescindibles que no te puedes perder, preparados al momento con el producto del día.</p>
+    </div>
+    <div class="mf-dishes" style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(16px,2vw,26px); align-items:start;">
+      {dishes.map((d) => (
+        <div class="mf-dishcard" data-reveal style={`position:relative; background:${d.cardBg}; border-radius:18px; padding:84px 22px 30px; margin-top:64px; text-align:center; box-shadow:${d.shadow};`}>
+          <div class="mf-plate" style="position:absolute; top:-64px; left:50%; transform:translateX(-50%); width:138px; height:138px; border-radius:50%; overflow:hidden; box-shadow:0 18px 38px rgba(42,48,71,0.26); border:5px solid #fff; transition:transform .5s ease;">
+            <div class="mf-ph" data-label={d.phLabel} style={`position:absolute; inset:0; background-position:${d.platePos};`}></div>
+          </div>
+          <span style={`position:absolute; top:-64px; left:50%; transform:translate(34px,86px); width:34px; height:34px; border-radius:9px; background:${d.badgeBg}; color:${d.badgeColor}; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:600; box-shadow:0 8px 18px rgba(42,48,71,0.2);`}>{d.count}</span>
+          <h3 style={`font-family:'Cormorant Garamond',serif; font-weight:600; font-size:27px; margin:0 0 10px; color:${d.titleColor};`}>{d.name}</h3>
+          <p style={`color:${d.descColor}; font-size:14px; line-height:1.6; margin:0 0 18px;`}>{d.desc}</p>
+          <div style={`font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; color:${d.priceColor};`}>{d.price}</div>
+        </div>
+      ))}
+    </div>
+    <div data-reveal style="text-align:center; margin-top:clamp(48px,6vw,68px);">
+      <a href={WHATSAPP} target="_blank" rel="noopener" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; padding:16px 32px; min-height:54px; border-radius:8px; background:#bd7a5e; color:#fff; font-weight:500; font-size:16px; box-shadow:0 14px 30px rgba(189,122,94,0.3);">
+        Pedir o reservar por WhatsApp
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"></path></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- CARTA -->
+  <section id="carta" style="background:#faf7f2; padding:clamp(80px,11vw,130px) clamp(20px,5vw,60px);">
+    <div data-reveal style="text-align:center; max-width:680px; margin:0 auto clamp(48px,6vw,72px);">
+      <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:16px;">
+        <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+        <span style="font-size:12.5px; letter-spacing:0.28em; text-transform:uppercase; color:#bd7a5e; font-weight:500;">El menú</span>
+        <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+      </div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(40px,5.6vw,72px); line-height:1.02; margin:0 0 14px; color:#2a3047;">La carta</h2>
+      <p style="color:#5b5f6b; font-size:16px; line-height:1.6; margin:0;">Una selección de la casa. Precios en pesos; el producto cambia según la pesca del día.</p>
+    </div>
+    <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:clamp(30px,4vw,56px);">
+      {menuSections.map((sec) => (
+        <div data-reveal>
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:22px;">
+            <h3 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:25px; color:#bd7a5e; margin:0; white-space:nowrap;">{sec.cat}</h3>
+            <span style="flex:1; height:1px; background:rgba(189,122,94,0.25);"></span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:18px;">
+            {sec.items.map((it) => (
+              <div>
+                <div style="display:flex; align-items:baseline; gap:14px; justify-content:space-between;">
+                  <span style="flex:1; font-size:16px; font-weight:600; color:#2a3047; letter-spacing:0.01em;">{it.name}</span>
+                  <span style="flex:none; font-family:'Cormorant Garamond',serif; font-size:17.5px; font-weight:600; color:#bd7a5e; text-align:right;">{it.price}</span>
+                </div>
+                <p style="margin:4px 0 0; color:#8a8578; font-size:13.5px; line-height:1.5;">{it.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+    <div data-reveal style="text-align:center; margin-top:clamp(48px,6vw,68px);">
+      <a href={WHATSAPP} target="_blank" rel="noopener" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; padding:16px 32px; min-height:54px; border-radius:8px; background:#2a3047; color:#f5f1ea; font-weight:500; font-size:16px; box-shadow:0 14px 30px rgba(42,48,71,0.22);">
+        Pedir o reservar por WhatsApp
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"></path></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section id="experiencia" style="max-width:1280px; margin:0 auto; padding:clamp(80px,11vw,140px) clamp(20px,5vw,60px);">
+    <div class="mf-split" style="display:grid; grid-template-columns:1fr 1.05fr; gap:clamp(36px,6vw,80px); align-items:center;">
+      <div data-reveal style="position:relative;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1" style="position:absolute; top:-30px; left:0; opacity:.55; animation:mfTwinkle 5s ease-in-out infinite;"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"></path></svg>
+        <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:16px;">
+          <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+          <span style="font-size:12.5px; letter-spacing:0.28em; text-transform:uppercase; color:#bd7a5e; font-weight:500;">La experiencia</span>
+        </div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(38px,5.2vw,66px); line-height:1.04; margin:0 0 22px; color:#bd7a5e;">Relajado por fuera,<br /><span style="color:#2a3047; font-style:italic;">premium por dentro</span></h2>
+        <p style="color:#5b5f6b; font-size:17px; line-height:1.75; margin:0 0 30px; max-width:460px;">Patio al aire libre con focos colgantes, ladrillo y mesas de madera compartidas. Cocina abierta, cerveza artesanal bien fría y el murmullo del mar de fondo: el lugar donde las tardes de Mazatlán se alargan sin prisa. Una de las mejores experiencias para comer mariscos en Mazatlán, a un paso del malecón y el centro histórico.</p>
+        <div style="display:flex; gap:14px; flex-wrap:wrap;">
+          <a href="#esencia" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:9px; text-decoration:none; padding:15px 26px; min-height:52px; border-radius:8px; background:#2a3047; color:#f5f1ea; font-weight:500; font-size:15px;">Nosotros</a>
+          <a href="#galeria" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:9px; text-decoration:none; padding:15px 26px; min-height:52px; border-radius:8px; background:#bd7a5e; color:#fff; font-weight:500; font-size:15px;">Galería</a>
+        </div>
+      </div>
+      <div data-reveal style="position:relative; min-height:clamp(360px,42vw,480px);">
+        <div style="position:absolute; top:0; right:0; width:74%; height:78%; border-radius:14px 14px 90px 14px; overflow:hidden; box-shadow:0 28px 60px rgba(42,48,71,0.22);">
+          <div class="mf-ph" data-label="Foto: patio" style="position:absolute; inset:0;"></div>
+        </div>
+        <div class="mf-deco-hide" style="position:absolute; bottom:0; left:0; width:52%; height:52%; border-radius:14px 60px 14px 14px; overflow:hidden; box-shadow:0 24px 50px rgba(42,48,71,0.26); border:6px solid #f5f1ea;">
+          <div class="mf-ph" data-label="Foto: ambiente-barra" style="position:absolute; inset:0;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria" style="background:#efe8df; padding:clamp(72px,9vw,120px) clamp(20px,5vw,60px);">
+    <div data-reveal style="text-align:center; max-width:640px; margin:0 auto clamp(40px,5vw,56px);">
+      <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+        <span style="font-size:12.5px; letter-spacing:0.28em; text-transform:uppercase; color:#bd7a5e; font-weight:500;">@mardefondo_mzt</span>
+        <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+      </div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(38px,5.4vw,68px); line-height:1.02; margin:0 0 12px; color:#2a3047;">Galería</h2>
+      <p style="color:#8a8578; font-size:14.5px; line-height:1.6; margin:0; display:inline-flex; align-items:center; gap:9px; flex-wrap:wrap; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1.6" style="flex:none;"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.1" fill="#bd7a5e"></circle></svg> Conectada a Instagram — se actualiza sola con tus publicaciones reales.</p>
+    </div>
+    <div class="mf-gal-grid" style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:14px;">
+      {gallery.map((g) => (
+        <a href="https://www.instagram.com/mardefondo_mzt" target="_blank" rel="noopener" aria-label={g.alt} data-reveal class="mf-galitem" style="position:relative; display:block; aspect-ratio:1; border-radius:14px; overflow:hidden; text-decoration:none; box-shadow:0 12px 28px rgba(42,48,71,0.12);">
+          <div class="mf-zoom mf-ph" data-label={g.phLabel} style="position:absolute; inset:0;"></div>
+          <div class="mf-galov" style="position:absolute; inset:0; background:rgba(42,48,71,0); display:flex; align-items:center; justify-content:center; transition:background .4s ease;">
+            <svg class="mf-galic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" style="opacity:0; transform:scale(.6); transition:opacity .4s ease, transform .4s ease;"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.1" fill="#fff"></circle></svg>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section style="max-width:760px; margin:0 auto; padding:clamp(72px,9vw,120px) clamp(24px,5vw,40px); text-align:center;">
+    <div data-reveal>
+      <div style="color:#e0b15f; font-size:20px; letter-spacing:6px; margin-bottom:22px;">★★★★★</div>
+      <h3 style="font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:clamp(26px,3.6vw,40px); line-height:1.3; color:#bd7a5e; margin:0 0 26px;">"El mejor aguachile de Mazatlán, sin discusión"</h3>
+      <p style="font-family:'Cormorant Garamond',serif; font-style:italic; color:#5b5f6b; font-size:clamp(17px,2.2vw,22px); line-height:1.6; margin:0 0 28px;">Vinimos por los mariscos y nos quedamos toda la noche. Producto fresquísimo, cocteles increíbles y un ambiente que te hace querer volver. Ya es nuestro lugar fijo en el Centro.</p>
+      <div style="font-size:15px; font-weight:500; color:#2a3047; letter-spacing:0.02em;">Daniela R.</div>
+      <div style="font-size:13px; color:#8a8578; margin-top:3px;">Mazatlán, Sinaloa</div>
+    </div>
+  </section>
+
+  <!-- UBICACION -->
+  <section id="ubicacion" style="max-width:1280px; margin:0 auto; padding:0 clamp(20px,5vw,60px) clamp(80px,10vw,130px);">
+    <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); border-radius:22px; overflow:hidden; box-shadow:0 34px 70px rgba(42,48,71,0.16); border:1px solid rgba(42,48,71,0.07);">
+      <div style="position:relative; min-height:380px; background:linear-gradient(155deg,#dfe6e3 0%, #cfd9d6 55%, #c4d0cd 100%); overflow:hidden;">
+        <svg width="100%" height="100%" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; opacity:0.6;">
+          <g stroke="#b3c2bd" stroke-width="2" fill="none">
+            <path d="M-20 90 L420 60"></path><path d="M-20 180 L420 150"></path><path d="M-20 270 L420 245"></path><path d="M-20 350 L420 330"></path>
+            <path d="M70 -20 L40 420"></path><path d="M170 -20 L150 420"></path><path d="M270 -20 L255 420"></path><path d="M360 -20 L350 420"></path>
+          </g>
+          <path d="M-20 230 Q120 200 200 250 T420 240" stroke="#9fb6c9" stroke-width="16" fill="none" opacity="0.65"></path>
+        </svg>
+        <div style="position:absolute; left:50%; top:48%; transform:translate(-50%,-100%); display:flex; flex-direction:column; align-items:center;">
+          <div style="position:relative;">
+            <div style="position:absolute; left:50%; top:100%; transform:translate(-50%,-6px); width:34px; height:34px; border-radius:50%; background:rgba(189,122,94,0.35); animation:mfRing 2.6s ease-out infinite;"></div>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="#bd7a5e" style="position:relative; filter:drop-shadow(0 6px 12px rgba(42,48,71,0.3));"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"></path></svg>
+          </div>
+        </div>
+        <div style="position:absolute; left:20px; top:20px; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:#6f8a86;">Centro · Mazatlán</div>
+      </div>
+      <div style="padding:clamp(34px,4vw,56px); background:#fff; display:flex; flex-direction:column; justify-content:center;">
+        <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:14px;">
+          <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+          <span style="font-size:12.5px; letter-spacing:0.28em; text-transform:uppercase; color:#bd7a5e; font-weight:500;">Visítanos</span>
+        </div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(32px,4.4vw,52px); line-height:1.05; margin:0 0 16px; color:#2a3047;">En el corazón del Centro de Mazatlán</h2>
+        <p style="color:#5b5f6b; font-size:15.5px; line-height:1.7; margin:0 0 24px; max-width:440px;">Ubicados en Mariano Escobedo 51, en el Centro histórico de Mazatlán, somos una de las mejores opciones para comer mariscos frescos cerca del malecón.</p>
+        <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:14px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1.6" style="flex:none; margin-top:2px;"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
+          <span style="color:#3a3f4a; font-size:17px; line-height:1.5;">Mariano Escobedo 51, Centro<br />Mazatlán, Sinaloa</span>
+        </div>
+        <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:28px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1.6" style="flex:none; margin-top:2px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+          <span style="color:#5b5f6b; font-size:15px; line-height:1.7;">Mar – Jue · 13:00 – 23:00<br />Vie – Dom · 13:00 – 01:00<br />Lunes · cerrado</span>
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=Mariano+Escobedo+51+Centro+Mazatlan" target="_blank" rel="noopener" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:9px; align-self:flex-start; text-decoration:none; padding:15px 28px; min-height:52px; border-radius:8px; background:#2a3047; color:#f5f1ea; font-weight:500; font-size:15px;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e0b15f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
+          Cómo llegar
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="background:#efe8df; padding:clamp(72px,9vw,120px) clamp(20px,5vw,60px);">
+    <div data-reveal style="max-width:840px; margin:0 auto;">
+      <div style="text-align:center; margin-bottom:clamp(40px,5vw,56px);">
+        <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:14px;">
+          <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+          <span style="font-size:12.5px; letter-spacing:0.28em; text-transform:uppercase; color:#bd7a5e; font-weight:500;">Preguntas frecuentes</span>
+          <span style="width:34px; height:1px; background:#bd7a5e;"></span>
+        </div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(36px,5vw,62px); line-height:1.04; margin:0 0 12px; color:#2a3047;">Dónde comer mariscos en Mazatlán</h2>
+        <p style="color:#5b5f6b; font-size:16px; line-height:1.6; margin:0;">Todo lo que necesitas saber antes de tu visita a Mar de Fondo.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        {faqs.map((f) => (
+          <details style="background:#fff; border-radius:14px; padding:2px 24px; box-shadow:0 10px 26px rgba(42,48,71,0.07);">
+            <summary style="cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:22px 0;">
+              <h3 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:clamp(19px,2.4vw,23px); font-weight:600; color:#2a3047; flex:1;">{f.q}</h3>
+              <span class="mf-faq-plus" aria-hidden="true" style="flex:none; color:#bd7a5e; font-size:28px; font-weight:300; line-height:1; transition:transform .3s ease;">+</span>
+            </summary>
+            <p style="margin:0 0 22px; color:#5b5f6b; font-size:15.5px; line-height:1.7;">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section style="position:relative; overflow:hidden; background:#2a3047;">
+    <div class="mf-ph" data-label="Foto: ambiente-mesa" style="position:absolute; inset:0; opacity:0.18;"></div>
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(42,48,71,0.86), rgba(42,48,71,0.94));"></div>
+    <div data-reveal style="position:relative; max-width:760px; margin:0 auto; padding:clamp(80px,11vw,140px) clamp(24px,5vw,40px); text-align:center;">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#e0b15f" stroke-width="1" style="opacity:.7; margin-bottom:8px;"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"></path></svg>
+      <div style="font-size:12.5px; letter-spacing:0.3em; text-transform:uppercase; color:#e0b15f; font-weight:500; margin-bottom:14px;">Reservaciones</div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(44px,7vw,86px); line-height:1; margin:0 0 20px; color:#f5f1ea;">Reserva ahora</h2>
+      <p style="color:#cdd1da; font-size:18px; line-height:1.6; margin:0 auto 40px; max-width:520px;">Reserva en uno de los mejores restaurantes de mariscos en Mazatlán. Escríbenos por WhatsApp: las mejores noches se llenan rápido.</p>
+      <a href={WHATSAPP} target="_blank" rel="noopener" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:12px; text-decoration:none; padding:20px 42px; min-height:60px; border-radius:10px; background:linear-gradient(180deg,#e0b15f,#c9a24b); color:#2a3047; font-weight:600; font-size:18px; box-shadow:0 18px 46px rgba(224,177,95,0.4);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#2a3047"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24z"></path></svg>
+        Reservar por WhatsApp
+      </a>
+      <div style="margin-top:20px; color:#9aa0ad; font-size:15px;">o llámanos al <a href="tel:+526693306631" style="color:#e0b15f; text-decoration:none;">669 330 6631</a></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#f5f1ea; padding:clamp(54px,7vw,80px) clamp(20px,5vw,60px) 34px;">
+    <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:40px;">
+      <div>
+        <div style="display:flex; align-items:center; gap:11px; margin-bottom:16px;">
+          <span style="display:flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; border:1.5px solid #bd7a5e;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1.5" stroke-linecap="round"><path d="M2 10c2 0 2 1.6 4 1.6S8 10 10 10s2 1.6 4 1.6S16 10 18 10s2 1.6 4 1.6"></path><path d="M2 15c2 0 2 1.6 4 1.6S8 15 10 15s2 1.6 4 1.6S16 15 18 15s2 1.6 4 1.6"></path></svg></span>
+          <span style="font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:700; letter-spacing:0.03em; color:#2a3047;">Mar de Fondo</span>
+        </div>
+        <p style="color:#8a8578; font-size:14.5px; line-height:1.7; margin:0; max-width:280px;">Restaurante de mariscos en el Centro de Mazatlán. Ceviches, aguachiles y camarones frescos del día, con mixología de autor.</p>
+      </div>
+      <div>
+        <h4 style="font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:#bd7a5e; margin:0 0 18px; font-weight:600;">Contacto</h4>
+        <a href="tel:+526693306631" style="display:block; color:#3a3f4a; text-decoration:none; font-size:15px; margin-bottom:12px;">669 330 6631</a>
+        <a href={WHATSAPP} target="_blank" rel="noopener" style="display:block; color:#3a3f4a; text-decoration:none; font-size:15px; margin-bottom:12px;">Reservar por WhatsApp</a>
+        <span style="display:block; color:#8a8578; font-size:15px;">Mariano Escobedo 51, Centro</span>
+      </div>
+      <div>
+        <h4 style="font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:#bd7a5e; margin:0 0 18px; font-weight:600;">Horario</h4>
+        <span style="display:block; color:#3a3f4a; font-size:15px; line-height:1.9;">Mar – Jue · 13:00 – 23:00<br />Vie – Dom · 13:00 – 01:00<br />Lunes · cerrado</span>
+      </div>
+      <div>
+        <h4 style="font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:#bd7a5e; margin:0 0 18px; font-weight:600;">Síguenos</h4>
+        <div style="display:flex; gap:12px;">
+          <a href="https://www.instagram.com/mardefondo_mzt" target="_blank" rel="noopener" aria-label="Instagram" class="mf-social" style="width:42px; height:42px; border-radius:11px; border:1px solid rgba(42,48,71,0.14); display:flex; align-items:center; justify-content:center; transition:border-color .3s ease, background .3s ease;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2a3047" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.1" fill="#2a3047"></circle></svg></a>
+          <a href="https://www.facebook.com/share/1DhLhmdpEu/" target="_blank" rel="noopener" aria-label="Facebook" class="mf-social" style="width:42px; height:42px; border-radius:11px; border:1px solid rgba(42,48,71,0.14); display:flex; align-items:center; justify-content:center; transition:border-color .3s ease, background .3s ease;"><svg width="19" height="19" viewBox="0 0 24 24" fill="#2a3047"><path d="M14 8h2V5h-2c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.4-3H14V8.5c0-.3.2-.5.5-.5z"></path></svg></a>
+          <a href={WHATSAPP} target="_blank" rel="noopener" aria-label="WhatsApp" class="mf-social" style="width:42px; height:42px; border-radius:11px; border:1px solid rgba(42,48,71,0.14); display:flex; align-items:center; justify-content:center; transition:border-color .3s ease, background .3s ease;"><svg width="19" height="19" viewBox="0 0 24 24" fill="#2a3047"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"></path></svg></a>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1180px; margin:48px auto 0; padding-top:24px; border-top:1px solid rgba(42,48,71,0.1); display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; color:#9a958a; font-size:13px;">
+      <span>© 2026 Mar de Fondo · Mazatlán, Sinaloa</span>
+      <span>Mariscos · Mixología · Buen ambiente</span>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href={WHATSAPP} target="_blank" rel="noopener" aria-label="Reservar por WhatsApp" class="mf-fab" style="position:fixed; right:clamp(16px,4vw,30px); bottom:clamp(16px,4vw,30px); z-index:130; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#25D366; box-shadow:0 12px 32px rgba(37,211,102,0.45); transition:transform .3s ease, box-shadow .3s ease;">
+    <span style="position:absolute; inset:0; border-radius:50%; animation:mfRing 2.8s ease-out infinite; pointer-events:none;"></span>
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.57c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"></path></svg>
+  </a>
+
+</div>
+
+<script>
+  // nav scroll background
+  const nav = document.getElementById('mf-nav');
+  if (nav) {
+    const onScroll = () => {
+      if (window.scrollY > 40) {
+        nav.style.background = 'rgba(245,241,234,0.92)';
+        nav.style.boxShadow = '0 6px 24px rgba(42,48,71,0.08)';
+        nav.style.backdropFilter = 'blur(10px)';
+        nav.style.padding = '12px clamp(20px,5vw,60px)';
+      } else {
+        nav.style.background = 'rgba(245,241,234,0)';
+        nav.style.boxShadow = 'none';
+        nav.style.backdropFilter = 'blur(0)';
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // mobile hamburger drawer
+  const burger = document.getElementById('mf-burger');
+  const navmenu = document.getElementById('mf-navmenu');
+  const overlay = document.getElementById('mf-overlay');
+  const setOpen = (open: boolean) => {
+    if (!navmenu) return;
+    navmenu.classList.toggle('open', open);
+    overlay?.classList.toggle('open', open);
+    burger?.classList.toggle('open', open);
+    burger?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  burger?.addEventListener('click', () => setOpen(!navmenu?.classList.contains('open')));
+  overlay?.addEventListener('click', () => setOpen(false));
+  navmenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+  // scroll-reveal
+  const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('mf-in');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -7% 0px' }
+    );
+    revealEls.forEach((el) => io.observe(el));
+  }
+</script>
+</body>
+</html>
