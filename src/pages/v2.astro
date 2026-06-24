@@ -1,22 +1,43 @@
 ---
+import { getImage } from 'astro:assets';
+import patioPhoto from '../assets/v2/ambiente-patio.png';
+import aguachilesPhoto from '../assets/v2/aguachiles.png';
+import tostadaPhoto from '../assets/v2/tostada-buchona.png';
+import camaronesPhoto from '../assets/v2/camarones-zarandeados.png';
+import salmonPhoto from '../assets/v2/salmon-grill.png';
+import bicholaPhoto from '../assets/v2/bichola.png';
+import barraPhoto from '../assets/v2/ambiente-barra.png';
+import mesaPhoto from '../assets/v2/ambiente-mesa.png';
+
+const photos = {
+  patio: (await getImage({ src: patioPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  aguachiles: (await getImage({ src: aguachilesPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  tostada: (await getImage({ src: tostadaPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  camarones: (await getImage({ src: camaronesPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  salmon: (await getImage({ src: salmonPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  bichola: (await getImage({ src: bicholaPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  barra: (await getImage({ src: barraPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  mesa: (await getImage({ src: mesaPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+};
+
 const WHATSAPP = 'https://wa.me/526693306631';
 
 const dishes = [
-  { name: 'Tostada Marde Fondo', count: '01', price: '$165', platePos: 'center', desc: 'Paté de atún ahumado, pepino, camarón entero, pulpo y aguacate.', phLabel: 'Foto: tostada-buchona', cardBg: '#fff', shadow: '0 22px 46px rgba(42,48,71,0.10)', titleColor: '#bd7a5e', descColor: '#5b5f6b', priceColor: '#2a3047', badgeBg: '#bd7a5e', badgeColor: '#fff' },
-  { name: 'Aguachilo Macho', count: '02', price: '$215', platePos: '50% 28%', desc: 'Camarón mariposa en salsa macha con cacahuate tostado, pepino y aguacate.', phLabel: 'Foto: aguachiles', cardBg: '#2a3047', shadow: '0 26px 54px rgba(42,48,71,0.28)', titleColor: '#fff', descColor: '#b9bdc8', priceColor: '#e0b15f', badgeBg: '#e0b15f', badgeColor: '#2a3047' },
-  { name: 'Camarones Zarandeados', count: '03', price: '$275', platePos: 'center', desc: '220 g de camarón asado al estilo El Rosario, con su salsa de la casa.', phLabel: 'Foto: camarones-zarandeados', cardBg: '#fff', shadow: '0 22px 46px rgba(42,48,71,0.10)', titleColor: '#bd7a5e', descColor: '#5b5f6b', priceColor: '#2a3047', badgeBg: '#bd7a5e', badgeColor: '#fff' },
-  { name: 'Salmón al Grill', count: '04', price: '$360', platePos: 'center', desc: 'Filete a la parrilla sobre puré de papa, aceite de cilantro y maracuyá.', phLabel: 'Foto: salmon-grill', cardBg: '#fff', shadow: '0 22px 46px rgba(42,48,71,0.10)', titleColor: '#bd7a5e', descColor: '#5b5f6b', priceColor: '#2a3047', badgeBg: '#bd7a5e', badgeColor: '#fff' },
+  { name: 'Tostada Marde Fondo', count: '01', price: '$165', platePos: 'center', desc: 'Paté de atún ahumado, pepino, camarón entero, pulpo y aguacate.', photoKey: 'tostada', cardBg: '#fff', shadow: '0 22px 46px rgba(42,48,71,0.10)', titleColor: '#bd7a5e', descColor: '#5b5f6b', priceColor: '#2a3047', badgeBg: '#bd7a5e', badgeColor: '#fff' },
+  { name: 'Aguachilo Macho', count: '02', price: '$215', platePos: '50% 28%', desc: 'Camarón mariposa en salsa macha con cacahuate tostado, pepino y aguacate.', photoKey: 'aguachiles', cardBg: '#2a3047', shadow: '0 26px 54px rgba(42,48,71,0.28)', titleColor: '#fff', descColor: '#b9bdc8', priceColor: '#e0b15f', badgeBg: '#e0b15f', badgeColor: '#2a3047' },
+  { name: 'Camarones Zarandeados', count: '03', price: '$275', platePos: 'center', desc: '220 g de camarón asado al estilo El Rosario, con su salsa de la casa.', photoKey: 'camarones', cardBg: '#fff', shadow: '0 22px 46px rgba(42,48,71,0.10)', titleColor: '#bd7a5e', descColor: '#5b5f6b', priceColor: '#2a3047', badgeBg: '#bd7a5e', badgeColor: '#fff' },
+  { name: 'Salmón al Grill', count: '04', price: '$360', platePos: 'center', desc: 'Filete a la parrilla sobre puré de papa, aceite de cilantro y maracuyá.', photoKey: 'salmon', cardBg: '#fff', shadow: '0 22px 46px rgba(42,48,71,0.10)', titleColor: '#bd7a5e', descColor: '#5b5f6b', priceColor: '#2a3047', badgeBg: '#bd7a5e', badgeColor: '#fff' },
 ];
 
 const gallery = [
-  { phLabel: 'Foto: patio', alt: 'Patio al aire libre del restaurante de mariscos Mar de Fondo en Mazatlán' },
-  { phLabel: 'Foto: aguachiles', alt: 'Aguachiles de camarón frescos en Mar de Fondo Mazatlán' },
-  { phLabel: 'Foto: camarones-zarandeados', alt: 'Camarones zarandeados al estilo El Rosario' },
-  { phLabel: 'Foto: salmon-grill', alt: 'Salmón al grill sobre puré de papa en Mar de Fondo' },
-  { phLabel: 'Foto: tostada-buchona', alt: 'Tostada de mariscos con atún y aguacate' },
-  { phLabel: 'Foto: bichola', alt: 'Cerveza artesanal Bichola de Mazatlán' },
-  { phLabel: 'Foto: ambiente-barra', alt: 'Barra y mixología de autor en Mar de Fondo' },
-  { phLabel: 'Foto: ambiente-mesa', alt: 'Mesa servida con mariscos frescos y bebidas' },
+  { photoKey: 'patio', alt: 'Patio al aire libre del restaurante de mariscos Mar de Fondo en Mazatlán' },
+  { photoKey: 'aguachiles', alt: 'Aguachiles de camarón frescos en Mar de Fondo Mazatlán' },
+  { photoKey: 'camarones', alt: 'Camarones zarandeados al estilo El Rosario' },
+  { photoKey: 'salmon', alt: 'Salmón al grill sobre puré de papa en Mar de Fondo' },
+  { photoKey: 'tostada', alt: 'Tostada de mariscos con atún y aguacate' },
+  { photoKey: 'bichola', alt: 'Cerveza artesanal Bichola de Mazatlán' },
+  { photoKey: 'barra', alt: 'Barra y mixología de autor en Mar de Fondo' },
+  { photoKey: 'mesa', alt: 'Mesa servida con mariscos frescos y bebidas' },
 ];
 
 const faqs = [
@@ -99,6 +120,7 @@ const menuSections = [
   <meta property="og:type" content="restaurant" />
   <meta property="og:title" content="Restaurante de mariscos en Mazatlán | Mar de Fondo" />
   <meta property="og:description" content="Mariscos frescos del día, ceviches y aguachiles en el Centro de Mazatlán. Reserva por WhatsApp." />
+  <meta property="og:image" content={photos.patio} />
   <meta name="geo.region" content="MX-SIN" />
   <meta name="geo.placename" content="Mazatlán" />
   <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@graph":[{"@type":"Restaurant","name":"Mar de Fondo","description":"Restaurante de mariscos frescos en el Centro de Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados.","servesCuisine":["Mariscos","Seafood","Mexican"],"priceRange":"$$","telephone":"+52-669-330-6631","url":"https://mardefondo.mx","address":{"@type":"PostalAddress","streetAddress":"Mariano Escobedo 51, Centro","addressLocality":"Mazatlán","addressRegion":"Sinaloa","postalCode":"82000","addressCountry":"MX"},"geo":{"@type":"GeoCoordinates","latitude":23.2061,"longitude":-106.4197},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Tuesday","Wednesday","Thursday"],"opens":"13:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Friday","Saturday","Sunday"],"opens":"13:00","closes":"01:00"}],"acceptsReservations":"True"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Dónde comer mariscos en Mazatlán?","acceptedAnswer":{"@type":"Answer","text":"Mar de Fondo, en Mariano Escobedo 51, Centro, es una de las mejores opciones para comer mariscos frescos en Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados preparados con la pesca del día."}},{"@type":"Question","name":"¿Mar de Fondo tiene servicio para llevar?","acceptedAnswer":{"@type":"Answer","text":"Sí. Puedes ordenar para llevar escribiéndonos por WhatsApp al 669 330 6631; preparamos tu pedido al momento."}},{"@type":"Question","name":"¿Cuál es el horario de Mar de Fondo?","acceptedAnswer":{"@type":"Answer","text":"Abrimos de martes a jueves de 13:00 a 23:00 y de viernes a domingo de 13:00 a 01:00. Los lunes permanecemos cerrados."}},{"@type":"Question","name":"¿Se puede reservar mesa en Mar de Fondo?","acceptedAnswer":{"@type":"Answer","text":"Claro. Reserva en segundos por WhatsApp al 669 330 6631. Recomendamos apartar mesa los fines de semana."}},{"@type":"Question","name":"¿Qué tipo de mariscos sirven?","acceptedAnswer":{"@type":"Answer","text":"Trabajamos pescado y marisco fresco del Pacífico: atún, pulpo, camarón, callo, ostión y almeja chocolata, además de cortes y cerveza artesanal Bichola."}}]}]})}></script>
@@ -136,8 +158,7 @@ const menuSections = [
     .mf-galitem:hover .mf-galov{background:rgba(42,48,71,.4) !important;}
     .mf-galitem:hover .mf-galic{opacity:1 !important; transform:scale(1) !important;}
     .mf-galitem:hover .mf-zoom{transform:scale(1.09);}
-    .mf-ph{position:relative; background:repeating-linear-gradient(135deg, rgba(189,122,94,0.12) 0 14px, rgba(42,48,71,0.07) 14px 28px);}
-    .mf-ph::after{content:attr(data-label); position:absolute; left:14px; bottom:14px; padding:6px 12px; border-radius:6px; background:rgba(245,241,234,0.92); color:#5b5f6b; font-size:11px; letter-spacing:.04em;}
+    .mf-photo{background-size:cover; background-position:center;}
     @media (max-width: 980px){
       .mf-hero{ grid-template-columns:1fr !important; }
       .mf-hero-art{ min-height:460px !important; }
@@ -237,12 +258,12 @@ const menuSections = [
     <!-- hero art -->
     <div class="mf-hero-art" data-reveal style="position:relative; min-height:540px;">
       <div style="position:absolute; inset:4% 0 6% 12%; border-radius:14px 130px 14px 14px; overflow:hidden; box-shadow:0 30px 70px rgba(42,48,71,0.22);">
-        <div class="mf-ph" data-label="Foto: patio" role="img" aria-label="Patio al aire libre del restaurante de mariscos Mar de Fondo en el Centro de Mazatlán" style="position:absolute; inset:0; animation:mfFloatY 9s ease-in-out infinite;"></div>
+        <div class="mf-photo" role="img" aria-label="Patio al aire libre del restaurante de mariscos Mar de Fondo en el Centro de Mazatlán" style={`position:absolute; inset:0; animation:mfFloatY 9s ease-in-out infinite; background-image:url(${photos.patio});`}></div>
         <div style="position:absolute; inset:0; background:linear-gradient(160deg, rgba(42,48,71,0.05), rgba(42,48,71,0.22));"></div>
       </div>
       <!-- floating plate -->
       <div class="mf-deco-hide" style="position:absolute; top:-2%; left:-4%; width:clamp(140px,26%,210px); aspect-ratio:1; border-radius:50%; overflow:hidden; box-shadow:0 24px 50px rgba(42,48,71,0.28); border:5px solid #f5f1ea; animation:mfFloatY 7s ease-in-out infinite;">
-        <div class="mf-ph" data-label="Foto: aguachiles" style="position:absolute; inset:0; background-position:50% 30%;"></div>
+        <div class="mf-photo" style={`position:absolute; inset:0; background-position:50% 30%; background-image:url(${photos.aguachiles});`}></div>
       </div>
       <!-- gallery chip -->
       <a href="#galeria" class="mf-deco-hide mf-gal-chip" style="position:absolute; right:-2%; bottom:2%; width:clamp(150px,42%,196px); text-decoration:none; background:#2a3047; color:#f5f1ea; border-radius:14px 14px 14px 60px; padding:20px 22px; box-shadow:0 22px 46px rgba(42,48,71,0.32); transition:transform .35s ease;">
@@ -270,7 +291,7 @@ const menuSections = [
     <div class="mf-split" style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(36px,6vw,80px); align-items:center;">
       <div class="mf-split-imgwrap" data-reveal style="position:relative;">
         <div style="position:relative; width:min(440px,100%); aspect-ratio:1; margin:0 auto; border-radius:50%; overflow:hidden; box-shadow:0 34px 70px rgba(42,48,71,0.2);">
-          <div class="mf-ph" data-label="Foto: tostada-buchona" role="img" aria-label="Tostada de mariscos frescos con atún, camarón y aguacate en Mar de Fondo" style="position:absolute; inset:0;"></div>
+          <div class="mf-photo" role="img" aria-label="Tostada de mariscos frescos con atún, camarón y aguacate en Mar de Fondo" style={`position:absolute; inset:0; background-image:url(${photos.tostada});`}></div>
         </div>
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bd7a5e" stroke-width="1" style="position:absolute; top:-6px; right:8%; opacity:.6; animation:mfTwinkle 4.5s ease-in-out infinite;"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"></path></svg>
         <div style="position:absolute; bottom:4%; left:2%; background:#fff; border-radius:14px; padding:14px 20px; box-shadow:0 18px 40px rgba(42,48,71,0.16); display:flex; align-items:center; gap:12px;">
@@ -309,7 +330,7 @@ const menuSections = [
       {dishes.map((d) => (
         <div class="mf-dishcard" data-reveal style={`position:relative; background:${d.cardBg}; border-radius:18px; padding:84px 22px 30px; margin-top:64px; text-align:center; box-shadow:${d.shadow};`}>
           <div class="mf-plate" style="position:absolute; top:-64px; left:50%; transform:translateX(-50%); width:138px; height:138px; border-radius:50%; overflow:hidden; box-shadow:0 18px 38px rgba(42,48,71,0.26); border:5px solid #fff; transition:transform .5s ease;">
-            <div class="mf-ph" data-label={d.phLabel} style={`position:absolute; inset:0; background-position:${d.platePos};`}></div>
+            <div class="mf-photo" style={`position:absolute; inset:0; background-position:${d.platePos}; background-image:url(${photos[d.photoKey]});`}></div>
           </div>
           <span style={`position:absolute; top:-64px; left:50%; transform:translate(34px,86px); width:34px; height:34px; border-radius:9px; background:${d.badgeBg}; color:${d.badgeColor}; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:600; box-shadow:0 8px 18px rgba(42,48,71,0.2);`}>{d.count}</span>
           <h3 style={`font-family:'Cormorant Garamond',serif; font-weight:600; font-size:27px; margin:0 0 10px; color:${d.titleColor};`}>{d.name}</h3>
@@ -384,10 +405,10 @@ const menuSections = [
       </div>
       <div data-reveal style="position:relative; min-height:clamp(360px,42vw,480px);">
         <div style="position:absolute; top:0; right:0; width:74%; height:78%; border-radius:14px 14px 90px 14px; overflow:hidden; box-shadow:0 28px 60px rgba(42,48,71,0.22);">
-          <div class="mf-ph" data-label="Foto: patio" style="position:absolute; inset:0;"></div>
+          <div class="mf-photo" style={`position:absolute; inset:0; background-image:url(${photos.patio});`}></div>
         </div>
         <div class="mf-deco-hide" style="position:absolute; bottom:0; left:0; width:52%; height:52%; border-radius:14px 60px 14px 14px; overflow:hidden; box-shadow:0 24px 50px rgba(42,48,71,0.26); border:6px solid #f5f1ea;">
-          <div class="mf-ph" data-label="Foto: ambiente-barra" style="position:absolute; inset:0;"></div>
+          <div class="mf-photo" style={`position:absolute; inset:0; background-image:url(${photos.barra});`}></div>
         </div>
       </div>
     </div>
@@ -407,7 +428,7 @@ const menuSections = [
     <div class="mf-gal-grid" style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:14px;">
       {gallery.map((g) => (
         <a href="https://www.instagram.com/mardefondo_mzt" target="_blank" rel="noopener" aria-label={g.alt} data-reveal class="mf-galitem" style="position:relative; display:block; aspect-ratio:1; border-radius:14px; overflow:hidden; text-decoration:none; box-shadow:0 12px 28px rgba(42,48,71,0.12);">
-          <div class="mf-zoom mf-ph" data-label={g.phLabel} style="position:absolute; inset:0;"></div>
+          <div class="mf-zoom mf-photo" style={`position:absolute; inset:0; background-image:url(${photos[g.photoKey]});`}></div>
           <div class="mf-galov" style="position:absolute; inset:0; background:rgba(42,48,71,0); display:flex; align-items:center; justify-content:center; transition:background .4s ease;">
             <svg class="mf-galic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" style="opacity:0; transform:scale(.6); transition:opacity .4s ease, transform .4s ease;"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.1" fill="#fff"></circle></svg>
           </div>
@@ -497,7 +518,7 @@ const menuSections = [
 
   <!-- CTA FINAL -->
   <section style="position:relative; overflow:hidden; background:#2a3047;">
-    <div class="mf-ph" data-label="Foto: ambiente-mesa" style="position:absolute; inset:0; opacity:0.18;"></div>
+    <div class="mf-photo" style={`position:absolute; inset:0; opacity:0.18; background-image:url(${photos.mesa});`}></div>
     <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(42,48,71,0.86), rgba(42,48,71,0.94));"></div>
     <div data-reveal style="position:relative; max-width:760px; margin:0 auto; padding:clamp(80px,11vw,140px) clamp(24px,5vw,40px); text-align:center;">
       <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#e0b15f" stroke-width="1" style="opacity:.7; margin-bottom:8px;"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"></path></svg>
