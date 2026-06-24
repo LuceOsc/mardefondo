@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:#070a12;}
+  ::selection{background:#c9a24b;color:#070a12;}
+  @keyframes mfKen{0%{transform:scale(1) translateY(0);}100%{transform:scale(1.12) translateY(-1.5%);}}
+  @keyframes mfFloat{0%,100%{transform:translateY(0);opacity:.8;}50%{transform:translateY(9px);opacity:.3;}}
+  @keyframes mfUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+  @keyframes mfPulse{0%{transform:scale(.6);opacity:.8;}80%,100%{transform:scale(2.4);opacity:0;}}
+  @keyframes mfGlow{0%,100%{opacity:.5;}50%{opacity:.95;}}
+  @keyframes mfRing{0%{box-shadow:0 0 0 0 rgba(201,162,75,.55);}70%{box-shadow:0 0 0 18px rgba(201,162,75,0);}100%{box-shadow:0 0 0 0 rgba(201,162,75,0);}}
+  @keyframes mfReveal{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+  /* reveal via CSS animation — survives React re-renders (inline-style mutation does not) */
+  [data-reveal]{ animation: mfReveal .8s ease both; }
+  /* tap + interaction polish */
+  a, button{ -webkit-tap-highlight-color: transparent; }
+  .mf-burger{ display:none; }
+  .mf-burger span{ display:block; width:23px; height:2px; background:#f4efe6; border-radius:2px; transition:transform .3s ease, opacity .3s ease; }
+  .mf-burger.open span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .mf-burger.open span:nth-child(2){ opacity:0; }
+  .mf-burger.open span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+  #mf-overlay{ opacity:0; pointer-events:none; transition:opacity .35s ease; }
+  #mf-overlay.open{ opacity:1; pointer-events:auto; }
+  .mf-gal-grid a:active{ transform:scale(.97) !important; }
+  .mf-gal-grid a:active .mf-zoom{ transform:scale(1.08); }
+  .mf-cta-full:active{ transform:scale(.98); }
+  /* tablet */
+  @media (max-width: 1024px){
+    .mf-gal-grid{ grid-template-columns:repeat(3,1fr) !important; }
+  }
+  /* mobile nav drawer */
+  @media (max-width: 860px){
+    .mf-burger{ display:flex !important; }
+    #mf-navmenu{
+      position:fixed; top:0; right:0; height:100dvh; width:min(84vw,330px);
+      flex-direction:column !important; align-items:stretch !important; justify-content:flex-start !important;
+      gap:2px !important; flex-wrap:nowrap !important;
+      background:rgba(8,12,20,.985); backdrop-filter:blur(16px);
+      border-left:1px solid rgba(201,162,75,.18);
+      padding:96px 26px 32px !important;
+      transform:translateX(106%); transition:transform .42s cubic-bezier(.4,0,.2,1);
+      box-shadow:-24px 0 60px rgba(0,0,0,.55); z-index:140;
+    }
+    #mf-navmenu.open{ transform:translateX(0); }
+    #mf-navmenu > a:not(.mf-nav-cta){ font-size:20px !important; padding:16px 2px !important; border-bottom:1px solid rgba(244,239,230,.07); letter-spacing:.04em !important; }
+    #mf-navmenu .mf-nav-cta{ width:100%; justify-content:center; margin-top:22px; padding:17px 22px !important; font-size:16px !important; }
+  }
+  /* phone */
+  @media (max-width: 640px){
+    .mf-gal-grid{ grid-template-columns:repeat(2,1fr) !important; gap:10px !important; }
+    .mf-menu-grid{ grid-template-columns:1fr !important; }
+    .mf-cta-full{ width:100%; justify-content:center; }
+    .mf-hero-scroll{ display:none !important; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; }
+  }
+</style>
+</helmet>
+
+<div style="--gold:#c9a24b; --gold2:#e0bd6a; --ink:#070a12; --panel:#0c111d; --cream:#f4efe6; --muted:#9aa3b2; background:#070a12; color:#f4efe6; font-family:Jost,system-ui,sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative;">
+
+  <!-- NAV -->
+  <nav id="mf-nav" style="position:fixed; top:0; left:0; right:0; z-index:120; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:18px clamp(20px,5vw,64px); border-bottom:1px solid rgba(201,162,75,0); transition:background .4s ease, border-color .4s ease;">
+    <a href="#top" style="display:flex; align-items:center; gap:11px; text-decoration:none; color:#f4efe6;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.4" stroke-linecap="round"><path d="M2 9c2.2 0 2.2 2 4.4 2S8.6 9 10.8 9 13 11 15.2 11 17.4 9 19.6 9 21.8 11 22 11"/><path d="M2 14c2.2 0 2.2 2 4.4 2S8.6 14 10.8 14 13 16 15.2 16 17.4 14 19.6 14 21.8 16 22 16"/></svg>
+      <span style="font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:600; letter-spacing:0.16em;">MAR DE FONDO</span>
+    </a>
+    <div id="mf-navmenu" style="display:flex; align-items:center; gap:clamp(14px,2.4vw,34px); flex-wrap:wrap; justify-content:flex-end;">
+      <a href="#menu" style="text-decoration:none; color:#cfd4dd; font-size:14px; letter-spacing:0.06em;">Menú</a>
+      <a href="#galeria" style="text-decoration:none; color:#cfd4dd; font-size:14px; letter-spacing:0.06em;">Galería</a>
+      <a href="#experiencia" style="text-decoration:none; color:#cfd4dd; font-size:14px; letter-spacing:0.06em;">Experiencia</a>
+      <a href="#ubicacion" style="text-decoration:none; color:#cfd4dd; font-size:14px; letter-spacing:0.06em;">Ubicación</a>
+      <a href="https://wa.me/526693306631" target="_blank" rel="noopener" class="mf-nav-cta" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; padding:10px 20px; border-radius:999px; background:linear-gradient(180deg,#e0bd6a,#c9a24b); color:#0b0f1a; font-weight:600; font-size:14px; letter-spacing:0.02em; box-shadow:0 8px 22px rgba(201,162,75,0.22); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-2px); box-shadow:0 12px 28px rgba(201,162,75,0.36);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#0b0f1a"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24z"/></svg>
+        Reservar
+      </a>
+    </div>
+    <button class="mf-burger" id="mf-burger" aria-label="Abrir menú" aria-expanded="false" style="flex-direction:column; gap:5px; align-items:center; justify-content:center; width:46px; height:46px; border:1px solid rgba(201,162,75,0.32); border-radius:12px; background:rgba(7,10,18,0.45); cursor:pointer; padding:0; z-index:150;">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div id="mf-overlay"></div>
+
+  <span id="top"></span>
+
+  <!-- HERO -->
+    <section data-screen-label="Hero" style="position:relative; min-height:100vh; display:flex; align-items:flex-end; justify-content:center; overflow:hidden; padding:130px 24px clamp(56px,9vh,104px);">
+      <div style="position:absolute; inset:0; background-image:url('assets/hero-mardefondo.png'); background-size:cover; background-position:center; animation:mfKen 24s ease-in-out infinite alternate;"></div>
+      <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,10,18,0.5) 0%, rgba(7,10,18,0.28) 36%, rgba(7,10,18,0.93) 100%);"></div>
+      <div style="position:relative; text-align:center; max-width:860px;">
+        <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500; margin-bottom:6px;">Restaurante de Mariscos · Mazatlán</div>
+        <h1 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(60px,12vw,148px); line-height:0.9; margin:14px 0 10px; color:#f4efe6; text-shadow:0 12px 50px rgba(0,0,0,0.55);">Mar de<br><span style="font-style:italic; color:#e0bd6a;">Fondo</span></h1>
+        <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(20px,3vw,30px); color:#e7e1d4; margin:0 auto 34px; max-width:560px; line-height:1.4;">Mariscos, mixología y buen ambiente en Mazatlán</p>
+        <a href="https://wa.me/526693306631" target="_blank" rel="noopener" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:11px; text-decoration:none; padding:18px 34px; min-height:56px; border-radius:999px; background:linear-gradient(180deg,#e0bd6a,#c9a24b); color:#0b0f1a; font-weight:600; font-size:17px; letter-spacing:0.02em; box-shadow:0 16px 40px rgba(201,162,75,0.32); transition:transform .35s ease, box-shadow .35s ease;" style-hover="transform:translateY(-3px); box-shadow:0 22px 52px rgba(201,162,75,0.46);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#0b0f1a"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.57c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>
+          Reservar por WhatsApp
+        </a>
+        <div class="mf-hero-scroll" style="margin-top:48px; display:flex; flex-direction:column; align-items:center; gap:8px;">
+          <span style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa3b2;">Desliza</span>
+          <div style="width:1px; height:46px; background:linear-gradient(#c9a24b, transparent); animation:mfFloat 2.4s ease-in-out infinite;"></div>
+        </div>
+      </div>
+    </section>
+
+  <!-- MENU -->
+  <section id="menu" style="padding:clamp(80px,10vw,140px) clamp(20px,5vw,64px); max-width:1240px; margin:0 auto;">
+    <div data-reveal style="text-align:center; max-width:640px; margin:0 auto clamp(44px,6vw,68px); opacity:0; transform:translateY(26px); transition:opacity .8s ease, transform .8s ease;">
+      <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">Nuestra carta</div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(40px,6vw,72px); line-height:1; margin:14px 0 16px; color:#f4efe6;">Menú visual</h2>
+      <p style="color:#9aa3b2; font-size:17px; line-height:1.6; margin:0;">Lo mejor del mar de Mazatlán, preparado al momento. Selecciona una categoría para explorar.</p>
+    </div>
+    <div data-reveal style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-bottom:clamp(36px,5vw,54px); opacity:0; transform:translateY(20px); transition:opacity .8s ease .1s, transform .8s ease .1s;">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+        <button onClick="{{ tab.onClick }}" style="{{ tab.style }}">{{ tab.name }}</button>
+      </sc-for>
+    </div>
+    <div class="mf-menu-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:clamp(18px,2.4vw,30px);">
+      <sc-for list="{{ dishes }}" as="dish" hint-placeholder-count="3">
+        <div style="background:linear-gradient(180deg,#0d131f,#0a0e18); border:1px solid rgba(244,239,230,0.07); border-radius:18px; overflow:hidden; opacity:0; animation:mfUp .6s ease forwards; transition:transform .4s ease, border-color .4s ease, box-shadow .4s ease;" style-hover="transform:translateY(-7px); border-color:rgba(201,162,75,0.4); box-shadow:0 26px 50px rgba(0,0,0,0.5);">
+          <div style="position:relative; height:210px; overflow:hidden;">
+            <div style="position:absolute; inset:0; background-image:url('{{ dish.img }}'); background-size:cover; background-position:center; transition:transform .8s ease;" class="mf-zoom"></div>
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(10,14,24,0.85) 100%);"></div>
+            <span style="position:absolute; top:14px; right:14px; padding:6px 14px; border-radius:999px; background:rgba(7,10,18,0.65); border:1px solid rgba(201,162,75,0.55); color:#e0bd6a; font-weight:600; font-size:15px; backdrop-filter:blur(6px);">{{ dish.price }}</span>
+          </div>
+          <div style="padding:22px 22px 26px;">
+            <h3 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:25px; margin:0 0 8px; color:#f4efe6;">{{ dish.name }}</h3>
+            <p style="color:#9aa3b2; font-size:14.5px; line-height:1.55; margin:0;">{{ dish.desc }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria" style="padding:clamp(70px,9vw,120px) clamp(20px,5vw,64px); background:linear-gradient(180deg,#070a12,#0a0f1b,#070a12);">
+    <div data-reveal style="text-align:center; max-width:640px; margin:0 auto clamp(40px,5vw,58px); opacity:0; transform:translateY(26px); transition:opacity .8s ease, transform .8s ease;">
+      <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">@mardefondo_mzt</div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(40px,6vw,72px); line-height:1; margin:14px 0 14px; color:#f4efe6;">Galería</h2>
+      <p style="color:#9aa3b2; font-size:15px; line-height:1.6; margin:0; display:inline-flex; align-items:center; gap:9px; flex-wrap:wrap; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.6" style="flex:none;"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="#c9a24b"/></svg> Conectada a Instagram — estas fotos se actualizarán solas con tus publicaciones reales.</p>
+    </div>
+    <div class="mf-gal-grid" style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;">
+      <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="8">
+        <a href="https://www.instagram.com/mardefondo_mzt" target="_blank" rel="noopener" data-reveal style="position:relative; display:block; aspect-ratio:1/1; border-radius:14px; overflow:hidden; text-decoration:none; opacity:0; transform:translateY(22px) scale(0.97); transition:opacity .7s ease, transform .7s ease;">
+          <div style="position:absolute; inset:0; background-image:url('{{ g.url }}'); background-size:cover; background-position:center; transition:transform .8s ease;" class="mf-zoom"></div>
+          <div style="position:absolute; inset:0; background:rgba(7,10,18,0); display:flex; align-items:center; justify-content:center; transition:background .4s ease;" class="mf-galov">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f4efe6" stroke-width="1.6" style="opacity:0; transform:scale(0.6); transition:opacity .4s ease, transform .4s ease;" class="mf-galic"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="#f4efe6"/></svg>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section id="experiencia" style="padding:clamp(80px,10vw,140px) clamp(20px,5vw,64px); max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:clamp(36px,5vw,70px); align-items:center;">
+    <div data-reveal style="position:relative; opacity:0; transform:translateY(26px); transition:opacity .9s ease, transform .9s ease;">
+      <div style="position:relative; border-radius:20px; overflow:hidden; aspect-ratio:4/5; box-shadow:0 30px 70px rgba(0,0,0,0.5);">
+        <div style="position:absolute; inset:0; background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1100&q=75'); background-size:cover; background-position:center; animation:mfKen 28s ease-in-out infinite alternate;"></div>
+        <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,10,18,0.25), rgba(7,10,18,0.55));"></div>
+      </div>
+      <div style="position:absolute; inset:14px; border:1px solid rgba(201,162,75,0.3); border-radius:16px; pointer-events:none;"></div>
+    </div>
+    <div data-reveal style="opacity:0; transform:translateY(26px); transition:opacity .9s ease .15s, transform .9s ease .15s;">
+      <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">La experiencia</div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-style:italic; font-size:clamp(38px,5.5vw,66px); line-height:1.05; margin:16px 0 22px; color:#f4efe6;">Un lugar para disfrutar sin prisas</h2>
+      <p style="color:#9aa3b2; font-size:17px; line-height:1.7; margin:0 0 38px; max-width:480px;">En Mar de Fondo cada platillo y cada coctel se sirven con calma. Ven por los mariscos, quédate por el ambiente: luz cálida, buena música y el sabor del mar de Mazatlán.</p>
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div style="display:flex; gap:18px; align-items:flex-start;">
+          <div style="flex:none; width:46px; height:46px; border-radius:12px; border:1px solid rgba(201,162,75,0.4); display:flex; align-items:center; justify-content:center; background:rgba(201,162,75,0.06);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.4" stroke-linecap="round"><path d="M2 12c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2"/><path d="M2 17c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2"/></svg>
+          </div>
+          <div><h4 style="margin:2px 0 5px; font-size:18px; font-weight:600; color:#f4efe6; font-family:'Cormorant Garamond',serif; letter-spacing:0.02em;">Mariscos frescos del día</h4><p style="margin:0; color:#9aa3b2; font-size:14.5px; line-height:1.55;">Producto de temporada, seleccionado cada mañana.</p></div>
+        </div>
+        <div style="display:flex; gap:18px; align-items:flex-start;">
+          <div style="flex:none; width:46px; height:46px; border-radius:12px; border:1px solid rgba(201,162,75,0.4); display:flex; align-items:center; justify-content:center; background:rgba(201,162,75,0.06);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14l-7 8z"/><path d="M12 12v7"/><path d="M8 19h8"/></svg>
+          </div>
+          <div><h4 style="margin:2px 0 5px; font-size:18px; font-weight:600; color:#f4efe6; font-family:'Cormorant Garamond',serif; letter-spacing:0.02em;">Mixología de autor</h4><p style="margin:0; color:#9aa3b2; font-size:14.5px; line-height:1.55;">Cocteles de mezcal, tequila y mezclas de la casa.</p></div>
+        </div>
+        <div style="display:flex; gap:18px; align-items:flex-start;">
+          <div style="flex:none; width:46px; height:46px; border-radius:12px; border:1px solid rgba(201,162,75,0.4); display:flex; align-items:center; justify-content:center; background:rgba(201,162,75,0.06);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.5A8 8 0 1 1 10.5 4a6.2 6.2 0 0 0 9.5 9.5z"/></svg>
+          </div>
+          <div><h4 style="margin:2px 0 5px; font-size:18px; font-weight:600; color:#f4efe6; font-family:'Cormorant Garamond',serif; letter-spacing:0.02em;">Ambiente nocturno</h4><p style="margin:0; color:#9aa3b2; font-size:14.5px; line-height:1.55;">Luz cálida y buena música para alargar la noche.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UBICACION -->
+  <section id="ubicacion" style="padding:clamp(70px,9vw,120px) clamp(20px,5vw,64px); background:#0a0f1b;">
+    <div data-reveal style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:0; border-radius:22px; overflow:hidden; border:1px solid rgba(244,239,230,0.08); opacity:0; transform:translateY(26px); transition:opacity .9s ease, transform .9s ease; box-shadow:0 30px 70px rgba(0,0,0,0.45);">
+      <div style="position:relative; min-height:380px; background:radial-gradient(120% 120% at 70% 30%, #11203a 0%, #0a1320 60%, #070d17 100%); overflow:hidden;">
+        <svg width="100%" height="100%" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; opacity:0.6;">
+          <g stroke="#1d3354" stroke-width="2" fill="none">
+            <path d="M-20 90 L420 60"/><path d="M-20 180 L420 150"/><path d="M-20 270 L420 245"/><path d="M-20 350 L420 330"/>
+            <path d="M70 -20 L40 420"/><path d="M170 -20 L150 420"/><path d="M270 -20 L255 420"/><path d="M360 -20 L350 420"/>
+          </g>
+          <path d="M-20 230 Q120 200 200 250 T420 240" stroke="#16314f" stroke-width="14" fill="none" opacity="0.7"/>
+        </svg>
+        <div style="position:absolute; left:50%; top:48%; transform:translate(-50%,-100%); display:flex; flex-direction:column; align-items:center;">
+          <div style="position:relative;">
+            <div style="position:absolute; left:50%; top:100%; transform:translate(-50%,-6px); width:34px; height:34px; border-radius:50%; background:rgba(201,162,75,0.4); animation:mfPulse 2.4s ease-out infinite;"></div>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="#c9a24b" style="position:relative; filter:drop-shadow(0 6px 12px rgba(0,0,0,0.5));"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+          </div>
+        </div>
+        <div style="position:absolute; left:20px; top:20px; font-size:11px; letter-spacing:0.24em; text-transform:uppercase; color:#5a7299;">Centro · Mazatlán</div>
+      </div>
+      <div style="padding:clamp(34px,4vw,54px); background:linear-gradient(180deg,#0d131f,#0a0e18); display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">Cómo llegar</div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(34px,4.5vw,54px); line-height:1.05; margin:14px 0 20px; color:#f4efe6;">Te esperamos en el Centro</h2>
+        <p style="color:#cfd4dd; font-size:18px; line-height:1.5; margin:0 0 8px;">Mariano Escobedo 51, Centro</p>
+        <p style="color:#9aa3b2; font-size:15px; line-height:1.7; margin:0 0 28px;">Mar – Jue · 13:00 a 23:00<br>Vie – Dom · 13:00 a 01:00<br>Lunes · cerrado</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Mariano+Escobedo+51+Centro+Mazatlan" target="_blank" rel="noopener" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:9px; align-self:flex-start; text-decoration:none; padding:15px 26px; min-height:52px; border-radius:999px; border:1px solid rgba(201,162,75,0.6); color:#e0bd6a; font-weight:500; font-size:15px; transition:background .3s ease, color .3s ease;" style-hover="background:linear-gradient(180deg,#e0bd6a,#c9a24b); color:#0b0f1a;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Cómo llegar
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVAS -->
+  <section id="reservas" style="position:relative; padding:clamp(90px,12vw,160px) clamp(20px,5vw,64px); overflow:hidden; text-align:center;">
+    <div style="position:absolute; inset:0; background-image:url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1900&q=75'); background-size:cover; background-position:center;"></div>
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,10,18,0.86), rgba(7,10,18,0.78));"></div>
+    <div data-reveal style="position:relative; max-width:720px; margin:0 auto; opacity:0; transform:translateY(26px); transition:opacity .9s ease, transform .9s ease;">
+      <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">Reservaciones</div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(44px,7vw,92px); line-height:0.98; margin:16px 0 22px; color:#f4efe6;">Reserva tu mesa ahora</h2>
+      <p style="color:#d8d2c5; font-size:18px; line-height:1.6; margin:0 auto 40px; max-width:520px;">Reserva en segundos por WhatsApp. Aparta tu lugar: las mejores noches se llenan rápido.</p>
+      <a href="https://wa.me/526693306631" target="_blank" rel="noopener" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:12px; text-decoration:none; padding:21px 44px; min-height:60px; border-radius:999px; background:linear-gradient(180deg,#e0bd6a,#c9a24b); color:#0b0f1a; font-weight:600; font-size:19px; letter-spacing:0.01em; box-shadow:0 18px 46px rgba(201,162,75,0.4); transition:transform .35s ease, box-shadow .35s ease;" style-hover="transform:translateY(-3px); box-shadow:0 26px 60px rgba(201,162,75,0.55);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#0b0f1a"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24z"/></svg>
+        Reservar por WhatsApp
+      </a>
+      <div style="margin-top:22px; color:#9aa3b2; font-size:15px;">o llámanos al <a href="tel:+526693306631" style="color:#e0bd6a; text-decoration:none;">669 330 6631</a></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#060810; border-top:1px solid rgba(201,162,75,0.14); padding:clamp(54px,7vw,80px) clamp(20px,5vw,64px) 34px;">
+    <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:40px;">
+      <div>
+        <div style="display:flex; align-items:center; gap:11px; margin-bottom:16px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.4" stroke-linecap="round"><path d="M2 9c2.2 0 2.2 2 4.4 2S8.6 9 10.8 9 13 11 15.2 11 17.4 9 19.6 9 21.8 11 22 11"/><path d="M2 14c2.2 0 2.2 2 4.4 2S8.6 14 10.8 14 13 16 15.2 16 17.4 14 19.6 14 21.8 16 22 16"/></svg>
+          <span style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; letter-spacing:0.16em; color:#f4efe6;">MAR DE FONDO</span>
+        </div>
+        <p style="color:#9aa3b2; font-size:14.5px; line-height:1.7; margin:0; max-width:280px;">Mariscos, mixología y buen ambiente. Un lugar para disfrutar sin prisas en el corazón de Mazatlán.</p>
+      </div>
+      <div>
+        <h4 style="font-size:12px; letter-spacing:0.24em; text-transform:uppercase; color:#c9a24b; margin:0 0 18px; font-weight:600;">Contacto</h4>
+        <a href="tel:+526693306631" style="display:block; color:#cfd4dd; text-decoration:none; font-size:15px; margin-bottom:12px;">669 330 6631</a>
+        <a href="https://wa.me/526693306631" target="_blank" rel="noopener" style="display:block; color:#cfd4dd; text-decoration:none; font-size:15px; margin-bottom:12px;">Reservar por WhatsApp</a>
+        <span style="display:block; color:#9aa3b2; font-size:15px;">Mariano Escobedo 51, Centro</span>
+      </div>
+      <div>
+        <h4 style="font-size:12px; letter-spacing:0.24em; text-transform:uppercase; color:#c9a24b; margin:0 0 18px; font-weight:600;">Horario</h4>
+        <span style="display:block; color:#cfd4dd; font-size:15px; line-height:1.9;">Mar – Jue · 13:00 – 23:00<br>Vie – Dom · 13:00 – 01:00<br>Lunes · cerrado</span>
+      </div>
+      <div>
+        <h4 style="font-size:12px; letter-spacing:0.24em; text-transform:uppercase; color:#c9a24b; margin:0 0 18px; font-weight:600;">Síguenos</h4>
+        <div style="display:flex; gap:12px;">
+          <a href="https://www.instagram.com/mardefondo_mzt" target="_blank" rel="noopener" style="width:42px; height:42px; border-radius:11px; border:1px solid rgba(244,239,230,0.14); display:flex; align-items:center; justify-content:center; transition:border-color .3s ease, background .3s ease;" style-hover="border-color:rgba(201,162,75,0.6); background:rgba(201,162,75,0.08);">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#e7e1d4" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="#e7e1d4"/></svg>
+          </a>
+          <a href="https://www.facebook.com/share/1DhLhmdpEu/" target="_blank" rel="noopener" style="width:42px; height:42px; border-radius:11px; border:1px solid rgba(244,239,230,0.14); display:flex; align-items:center; justify-content:center; transition:border-color .3s ease, background .3s ease;" style-hover="border-color:rgba(201,162,75,0.6); background:rgba(201,162,75,0.08);">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="#e7e1d4"><path d="M14 8h2V5h-2c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.4-3H14V8.5c0-.3.2-.5.5-.5z"/></svg>
+          </a>
+          <a href="https://wa.me/526693306631" target="_blank" rel="noopener" style="width:42px; height:42px; border-radius:11px; border:1px solid rgba(244,239,230,0.14); display:flex; align-items:center; justify-content:center; transition:border-color .3s ease, background .3s ease;" style-hover="border-color:rgba(201,162,75,0.6); background:rgba(201,162,75,0.08);">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="#e7e1d4"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1180px; margin:48px auto 0; padding-top:24px; border-top:1px solid rgba(244,239,230,0.07); display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; color:#5e6678; font-size:13px;">
+      <span>© 2026 Mar de Fondo · Mazatlán, Sinaloa</span>
+      <span>Mariscos · Mixología · Buen ambiente</span>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/526693306631" target="_blank" rel="noopener" aria-label="Reservar por WhatsApp" style="position:fixed; right:clamp(16px,4vw,30px); bottom:clamp(16px,4vw,30px); z-index:130; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#e0bd6a,#c9a24b); box-shadow:0 12px 32px rgba(201,162,75,0.45); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:scale(1.08); box-shadow:0 16px 40px rgba(201,162,75,0.6);" style-active="transform:scale(0.95);">
+    <span style="position:absolute; inset:0; border-radius:50%; animation:mfRing 2.8s ease-out infinite; pointer-events:none;"></span>
+    <svg width="31" height="31" viewBox="0 0 24 24" fill="#0b0f1a"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.57c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>
+  </a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = { cat: 'Tostadas' };
+
+  img(id, w){ return 'https://images.unsplash.com/photo-' + id + '?auto=format&fit=crop&w=' + (w || 900) + '&q=72'; }
+
+  componentDidMount(){
+    const reveal = () => document.querySelectorAll('[data-reveal]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+    try {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
+      setTimeout(() => document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el)), 60);
+      setTimeout(reveal, 2800);
+
+      // gallery hover
+      document.querySelectorAll('.mf-galov').forEach(ov => {
+        const parent = ov.closest('a');
+        if (!parent) return;
+        const ic = ov.querySelector('.mf-galic');
+        const zoom = parent.querySelector('.mf-zoom');
+        parent.addEventListener('mouseenter', () => { ov.style.background = 'rgba(7,10,18,0.45)'; if (ic){ ic.style.opacity = '1'; ic.style.transform = 'scale(1)'; } if (zoom) zoom.style.transform = 'scale(1.1)'; });
+        parent.addEventListener('mouseleave', () => { ov.style.background = 'rgba(7,10,18,0)'; if (ic){ ic.style.opacity = '0'; ic.style.transform = 'scale(0.6)'; } if (zoom) zoom.style.transform = 'scale(1)'; });
+      });
+
+      // nav scroll background
+      const nav = document.getElementById('mf-nav');
+      if (nav) {
+        const onScroll = () => {
+          if (window.scrollY > 48) { nav.style.background = 'rgba(7,10,18,0.94)'; nav.style.borderBottomColor = 'rgba(201,162,75,0.18)'; nav.style.backdropFilter = 'blur(10px)'; }
+          else { nav.style.background = 'rgba(7,10,18,0)'; nav.style.borderBottomColor = 'rgba(201,162,75,0)'; nav.style.backdropFilter = 'blur(0px)'; }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      }
+
+      // mobile hamburger drawer
+      const burger = document.getElementById('mf-burger');
+      const navmenu = document.getElementById('mf-navmenu');
+      const overlay = document.getElementById('mf-overlay');
+      const setOpen = (o) => {
+        if (!navmenu) return;
+        navmenu.classList.toggle('open', o);
+        if (overlay) overlay.classList.toggle('open', o);
+        if (burger) { burger.classList.toggle('open', o); burger.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+        document.body.style.overflow = o ? 'hidden' : '';
+      };
+      if (burger) burger.addEventListener('click', () => setOpen(!navmenu.classList.contains('open')));
+      if (overlay) overlay.addEventListener('click', () => setOpen(false));
+      if (navmenu) navmenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+    } catch (e) { reveal(); }
+  }
+
+  renderVals(){
+    const img = (id, w) => this.img(id, w);
+    const menu = {
+      Tostadas: [
+        { name: 'Tostada de Atún', desc: 'Atún fresco, aguacate, chile serrano y ajonjolí tostado.', price: '$145', img: img('1546069901-ba9599a7e63c') },
+        { name: 'Tostada de Marlín', desc: 'Marlín ahumado, mayonesa de chipotle y cebolla morada.', price: '$120', img: img('1504674900247-0877df9cc836') },
+        { name: 'Tostada Mar de Fondo', desc: 'Camarón, pulpo y callo de hacha con leche de tigre.', price: '$165', img: img('1565680018434-b513d5e5fd47') }
+      ],
+      Tacos: [
+        { name: 'Taco Gobernador', desc: 'Camarón, queso fundido y pimiento a la plancha.', price: '$95', img: img('1559737558-2f5a35f4523b') },
+        { name: 'Taco de Pescado', desc: 'Pescado capeado, col morada y salsa de la casa.', price: '$85', img: img('1572490122747-3968b75cc699') },
+        { name: 'Taco de Pulpo', desc: 'Pulpo a las brasas con aioli de cilantro.', price: '$110', img: img('1551024709-8f23befc6f87') }
+      ],
+      Aguachiles: [
+        { name: 'Aguachile Verde', desc: 'Camarón crudo, limón, chile serrano y pepino.', price: '$185', img: img('1565680018434-b513d5e5fd47') },
+        { name: 'Aguachile Negro', desc: 'Camarón, salsa negra, cebolla y aguacate.', price: '$195', img: img('1546069901-ba9599a7e63c') },
+        { name: 'Aguachile de Callo', desc: 'Callo de hacha, leche de tigre y mango.', price: '$210', img: img('1504674900247-0877df9cc836') }
+      ],
+      Bebidas: [
+        { name: 'Mezcalita de Tamarindo', desc: 'Mezcal joven, tamarindo y escarcha de sal de gusano.', price: '$130', img: img('1535007813616-79dc02ba4021') },
+        { name: 'Margarita de la Casa', desc: 'Tequila reposado, limón y naranja, escarchada.', price: '$115', img: img('1599021456807-25db0f974333') },
+        { name: 'Michelada Mar de Fondo', desc: 'Cerveza clara, clamato y especias de la casa.', price: '$95', img: img('1514362545857-3bc16c4c7d1b') },
+        { name: 'Mojito de Pepino', desc: 'Ron blanco, pepino y hierbabuena fresca.', price: '$120', img: img('1559339352-11d035aa65de') }
+      ]
+    };
+    const cats = Object.keys(menu);
+    const active = this.state.cat || 'Tostadas';
+    const tabs = cats.map(c => ({
+      name: c,
+      onClick: () => this.setState({ cat: c }),
+      style: {
+        padding: '11px 22px', borderRadius: '999px', cursor: 'pointer', whiteSpace: 'nowrap',
+        fontFamily: 'Jost,sans-serif', fontSize: '15px', letterSpacing: '0.04em', transition: 'all .35s ease',
+        border: c === active ? '1px solid rgba(201,162,75,0.9)' : '1px solid rgba(244,239,230,0.16)',
+        background: c === active ? 'linear-gradient(180deg,#e0bd6a,#c9a24b)' : 'rgba(255,255,255,0.02)',
+        color: c === active ? '#0b0f1a' : '#cfd4dd',
+        fontWeight: c === active ? 600 : 400,
+        boxShadow: c === active ? '0 8px 22px rgba(201,162,75,0.28)' : 'none'
+      }
+    }));
+    const gallery = ['1565680018434-b513d5e5fd47','1599021456807-25db0f974333','1556679343-c7306c1976bc','1514362545857-3bc16c4c7d1b','1559737558-2f5a35f4523b','1551782450-a2132b4ba21d','1535007813616-79dc02ba4021','1467003909585-2f8a72700288'].map(id => ({ url: img(id, 800) }));
+    return {
+      tabs,
+      dishes: menu[active],
+      gallery
+    };
+  }
+}
+</script>
+</body>
+</html>
