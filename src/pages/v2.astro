@@ -172,7 +172,7 @@ const menuSections = [
         position:fixed; top:0; right:0; height:100dvh; width:min(84vw,320px);
         flex-direction:column !important; align-items:stretch !important; justify-content:flex-start !important;
         gap:2px !important;
-        background:rgba(245,241,234,.99); backdrop-filter:blur(14px);
+        background:rgba(245,241,234,.99); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
         border-left:1px solid rgba(189,122,94,.22);
         padding:94px 26px 32px !important;
         transform:translateX(106%); transition:transform .42s cubic-bezier(.4,0,.2,1);
@@ -194,6 +194,10 @@ const menuSections = [
     summary::-webkit-details-marker{ display:none; }
     summary{ list-style:none; }
     details[open] .mf-faq-plus{ transform:rotate(45deg); }
+    #mf-nav.mf-nav-scrolled{
+      background:rgba(245,241,234,0.92); box-shadow:0 6px 24px rgba(42,48,71,0.08);
+      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); padding:12px clamp(20px,5vw,60px) !important;
+    }
   </style>
 </head>
 <body>
@@ -580,16 +584,12 @@ const menuSections = [
   // nav scroll background
   const nav = document.getElementById('mf-nav');
   if (nav) {
+    let navScrolled = false;
     const onScroll = () => {
-      if (window.scrollY > 40) {
-        nav.style.background = 'rgba(245,241,234,0.92)';
-        nav.style.boxShadow = '0 6px 24px rgba(42,48,71,0.08)';
-        nav.style.backdropFilter = 'blur(10px)';
-        nav.style.padding = '12px clamp(20px,5vw,60px)';
-      } else {
-        nav.style.background = 'rgba(245,241,234,0)';
-        nav.style.boxShadow = 'none';
-        nav.style.backdropFilter = 'blur(0)';
+      const scrolled = window.scrollY > 40;
+      if (scrolled !== navScrolled) {
+        navScrolled = scrolled;
+        nav.classList.toggle('mf-nav-scrolled', scrolled);
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });

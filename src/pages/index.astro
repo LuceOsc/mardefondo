@@ -184,7 +184,7 @@ const faqs = [
           <div style="position:relative; height:210px; overflow:hidden;">
             <div style={`position:absolute; inset:0; background-image:url(${photos[dish.photoKey]}); background-size:cover; background-position:center; transition:transform .8s ease;`} class="mf-zoom"></div>
             <div style="position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(10,14,24,0.85) 100%);"></div>
-            <span style="position:absolute; top:14px; right:14px; padding:6px 14px; border-radius:999px; background:rgba(7,10,18,0.65); border:1px solid rgba(201,162,75,0.55); color:#e0bd6a; font-weight:600; font-size:15px; backdrop-filter:blur(6px);">{dish.price}</span>
+            <span style="position:absolute; top:14px; right:14px; padding:6px 14px; border-radius:999px; background:rgba(7,10,18,0.65); border:1px solid rgba(201,162,75,0.55); color:#e0bd6a; font-weight:600; font-size:15px; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);">{dish.price}</span>
           </div>
           <div style="padding:22px 22px 26px;">
             <h3 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:25px; margin:0 0 8px; color:#f4efe6;">{dish.name}</h3>
@@ -409,15 +409,12 @@ const faqs = [
   // nav scroll background
   const nav = document.getElementById('mf-nav');
   if (nav) {
+    let navScrolled = false;
     const onScroll = () => {
-      if (window.scrollY > 48) {
-        nav.style.background = 'rgba(7,10,18,0.94)';
-        nav.style.borderBottomColor = 'rgba(201,162,75,0.18)';
-        nav.style.backdropFilter = 'blur(10px)';
-      } else {
-        nav.style.background = 'rgba(7,10,18,0)';
-        nav.style.borderBottomColor = 'rgba(201,162,75,0)';
-        nav.style.backdropFilter = 'blur(0px)';
+      const scrolled = window.scrollY > 48;
+      if (scrolled !== navScrolled) {
+        navScrolled = scrolled;
+        nav.classList.toggle('mf-nav-scrolled', scrolled);
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
