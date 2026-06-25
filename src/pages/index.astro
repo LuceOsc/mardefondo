@@ -431,6 +431,7 @@ const faqs = [
     overlay?.classList.toggle('open', open);
     burger?.classList.toggle('open', open);
     burger?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.getElementById('mf-nav')?.classList.toggle('mf-nav-open', open);
     document.body.style.overflow = open ? 'hidden' : '';
   };
   burger?.addEventListener('click', () => setOpen(!navmenu?.classList.contains('open')));

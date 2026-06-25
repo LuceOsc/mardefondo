@@ -198,6 +198,9 @@ const menuSections = [
       background:rgba(245,241,234,0.92); box-shadow:0 6px 24px rgba(42,48,71,0.08);
       -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); padding:12px clamp(20px,5vw,60px) !important;
     }
+    @media (max-width:860px){
+      #mf-nav.mf-nav-open > a:first-child{ opacity:0; pointer-events:none; transition:opacity .25s ease; }
+    }
   </style>
 </head>
 <body>
@@ -606,6 +609,7 @@ const menuSections = [
     overlay?.classList.toggle('open', open);
     burger?.classList.toggle('open', open);
     burger?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.getElementById('mf-nav')?.classList.toggle('mf-nav-open', open);
     document.body.style.overflow = open ? 'hidden' : '';
   };
   burger?.addEventListener('click', () => setOpen(!navmenu?.classList.contains('open')));
