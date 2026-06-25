@@ -251,3 +251,7 @@ button {
     animation-iteration-count: 1 !important;
   }
 }
+
+summary::-webkit-details-marker { display: none; }
+summary { list-style: none; }
+details[open] .mf-faq-plus { transform: rotate(45deg); }

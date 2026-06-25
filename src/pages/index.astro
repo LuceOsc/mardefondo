@@ -1,51 +1,111 @@
 ---
 import { getImage } from 'astro:assets';
-import heroPhoto from '../assets/hero-mardefondo.png';
+import heroPhoto from '../assets/v1/ambiente-entrada-noche.png';
+import patioPhoto from '../assets/v2/ambiente-patio.png';
+import aguachilesPhoto from '../assets/v2/aguachiles.png';
+import tostadaPhoto from '../assets/v2/tostada-buchona.png';
+import camaronesPhoto from '../assets/v2/camarones-zarandeados.png';
+import salmonPhoto from '../assets/v2/salmon-grill.png';
+import bicholaPhoto from '../assets/v2/bichola.png';
+import barraPhoto from '../assets/v2/ambiente-barra.png';
+import mesaPhoto from '../assets/v2/ambiente-mesa.png';
 import '../styles/global.css';
 
-const hero = await getImage({ src: heroPhoto, width: 1600, format: 'webp', quality: 78 });
-
-const img = (id: string, w = 900) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`;
-
-const menu = {
-  Tostadas: [
-    { name: 'Tostada de Atún', desc: 'Atún fresco, aguacate, chile serrano y ajonjolí tostado.', price: '$145', img: img('1546069901-ba9599a7e63c') },
-    { name: 'Tostada de Marlín', desc: 'Marlín ahumado, mayonesa de chipotle y cebolla morada.', price: '$120', img: img('1504674900247-0877df9cc836') },
-    { name: 'Tostada Mar de Fondo', desc: 'Camarón, pulpo y callo de hacha con leche de tigre.', price: '$165', img: img('1565680018434-b513d5e5fd47') },
-  ],
-  Tacos: [
-    { name: 'Taco Gobernador', desc: 'Camarón, queso fundido y pimiento a la plancha.', price: '$95', img: img('1559737558-2f5a35f4523b') },
-    { name: 'Taco de Pescado', desc: 'Pescado capeado, col morada y salsa de la casa.', price: '$85', img: img('1572490122747-3968b75cc699') },
-    { name: 'Taco de Pulpo', desc: 'Pulpo a las brasas con aioli de cilantro.', price: '$110', img: img('1551024709-8f23befc6f87') },
-  ],
-  Aguachiles: [
-    { name: 'Aguachile Verde', desc: 'Camarón crudo, limón, chile serrano y pepino.', price: '$185', img: img('1565680018434-b513d5e5fd47') },
-    { name: 'Aguachile Negro', desc: 'Camarón, salsa negra, cebolla y aguacate.', price: '$195', img: img('1546069901-ba9599a7e63c') },
-    { name: 'Aguachile de Callo', desc: 'Callo de hacha, leche de tigre y mango.', price: '$210', img: img('1504674900247-0877df9cc836') },
-  ],
-  Bebidas: [
-    { name: 'Mezcalita de Tamarindo', desc: 'Mezcal joven, tamarindo y escarcha de sal de gusano.', price: '$130', img: img('1535007813616-79dc02ba4021') },
-    { name: 'Margarita de la Casa', desc: 'Tequila reposado, limón y naranja, escarchada.', price: '$115', img: img('1599021456807-25db0f974333') },
-    { name: 'Michelada Mar de Fondo', desc: 'Cerveza clara, clamato y especias de la casa.', price: '$95', img: img('1514362545857-3bc16c4c7d1b') },
-    { name: 'Mojito de Pepino', desc: 'Ron blanco, pepino y hierbabuena fresca.', price: '$120', img: img('1559339352-11d035aa65de') },
-  ],
-} as const;
-
-const categories = Object.keys(menu) as (keyof typeof menu)[];
-
-const gallery = [
-  '1565680018434-b513d5e5fd47',
-  '1599021456807-25db0f974333',
-  '1556679343-c7306c1976bc',
-  '1514362545857-3bc16c4c7d1b',
-  '1559737558-2f5a35f4523b',
-  '1551782450-a2132b4ba21d',
-  '1535007813616-79dc02ba4021',
-  '1467003909585-2f8a72700288',
-].map((id) => img(id, 800));
+const photos = {
+  hero: (await getImage({ src: heroPhoto, width: 1900, format: 'webp', quality: 78 })).src,
+  patio: (await getImage({ src: patioPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  aguachiles: (await getImage({ src: aguachilesPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  tostada: (await getImage({ src: tostadaPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  camarones: (await getImage({ src: camaronesPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  salmon: (await getImage({ src: salmonPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  bichola: (await getImage({ src: bicholaPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  barra: (await getImage({ src: barraPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+  mesa: (await getImage({ src: mesaPhoto, width: 1600, format: 'webp', quality: 78 })).src,
+};
 
 const WHATSAPP = 'https://wa.me/526693306631';
+
+const dishes = [
+  { name: 'Tostada Marde Fondo', price: '$165', desc: 'Paté de atún ahumado, pepino, camarón entero, pulpo y aguacate.', photoKey: 'tostada' },
+  { name: 'Aguachilo Macho', price: '$215', desc: 'Camarón mariposa en salsa macha con cacahuate, pepino y aguacate.', photoKey: 'aguachiles' },
+  { name: 'Camarones Zarandeados', price: '$275', desc: '220 g de camarón asado al estilo El Rosario, con su salsa de la casa.', photoKey: 'camarones' },
+  { name: 'Salmón al Grill', price: '$360', desc: 'Filete a la parrilla sobre puré de papa, aceite de cilantro y maracuyá.', photoKey: 'salmon' },
+];
+
+const gallery = [
+  { photoKey: 'patio', alt: 'Patio al aire libre del restaurante de mariscos Mar de Fondo en Mazatlán' },
+  { photoKey: 'aguachiles', alt: 'Aguachiles de camarón frescos en Mar de Fondo Mazatlán' },
+  { photoKey: 'camarones', alt: 'Camarones zarandeados al estilo El Rosario' },
+  { photoKey: 'salmon', alt: 'Salmón al grill sobre puré de papa en Mar de Fondo' },
+  { photoKey: 'tostada', alt: 'Tostada de mariscos con atún y aguacate' },
+  { photoKey: 'bichola', alt: 'Cerveza artesanal Bichola de Mazatlán' },
+  { photoKey: 'barra', alt: 'Barra y mixología de autor en Mar de Fondo' },
+  { photoKey: 'mesa', alt: 'Mesa servida con mariscos frescos y bebidas' },
+];
+
+const menuSections = [
+  { cat: 'Tostadas y Ceviches', items: [
+    { name: 'Marde Fondo', price: '$165', desc: 'Paté de atún ahumado, pepino, camarón, pulpo y aguacate.' },
+    { name: 'La Aguachila', price: '$135', desc: 'Mayo de chipotle y camarón mariposa en salsa serranita.' },
+    { name: 'Ahí Viene La Buchona', price: '$145', desc: 'Mayo de habanero, atún, aguacate y hoja de oro.' },
+    { name: 'Oriental', price: '$155 · cev. $310', desc: 'Salmón, atún y mango en miso con crema de aguacate y cacahuate.' },
+    { name: 'Pulpo Macho', price: '$150 · cev. $215', desc: 'Pulpo en salsa macha, cacahuate y aguacate.' },
+    { name: 'Mazatleca', price: '$145 · cev. $210', desc: 'Ceviche de camarón cocido, pepino, cebolla y aguacate.' },
+  ]},
+  { cat: 'Para Empezar', items: [
+    { name: 'Camarones Zarandeados 220g', price: '$275', desc: 'Al estilo El Rosario, asados al carbón.' },
+    { name: 'Aguachile de Ribeye', price: '$485', desc: 'Chiltepín tatemado, ajo, aceite de oliva y aguacate.' },
+    { name: 'Ostiones / Almejas Chocolatas', price: '$275', desc: '6 piezas zarandeadas en salsas negras de la casa.' },
+    { name: 'Shot de Ostión', price: '$95', desc: 'Con clamato y salsa picante para arrancar la tarde.' },
+    { name: 'Tacos de Frijol con Queso', price: '$80', desc: 'Orden de 3 para acompañar.' },
+    { name: 'Guacamole con Chicharrón', price: '$85', desc: 'Para botanear.' },
+  ]},
+  { cat: 'Aguachiles y Tiraditos', items: [
+    { name: 'Aguachilo', price: 'crudo $195 · cocido $215', desc: 'Verde, rojo o tatemado. Camarón mariposa, pepino y aguacate.' },
+    { name: 'Aguachilo Macho', price: 'crudo $215 · cocido $225', desc: 'En salsa macha con cacahuate tostado.' },
+    { name: 'Aguachilo de Ostión / Almeja', price: '$235', desc: 'En salsa, con pepino, cebolla y aguacate.' },
+    { name: 'Tiradito de Lomo de Atún', price: '$290', desc: 'Salsas negras, chile, pepino y aguacate.' },
+  ]},
+  { cat: 'Especialidades', items: [
+    { name: 'El Faro', price: '$295', desc: 'Ceviche surtido en salsas negras con clamato y aguacate.' },
+    { name: 'Campechano', price: '$250', desc: 'Pulpo, camarón, ostión y almeja en caldo de camarón.' },
+    { name: 'Oyster', price: '$225', desc: 'Ostiones preparados (6 pzas) con salsas de la casa.' },
+    { name: 'Chocolato', price: '$195', desc: 'Almeja chocolata en salsas negras, tomate y cebolla.' },
+  ]},
+  { cat: 'Pescados y Carnes', items: [
+    { name: 'Salmón al Grill', price: '$360', desc: 'Puré de papa, aceite de cilantro y salsa de maracuyá.' },
+    { name: 'Pescado a la Plancha', price: '$360', desc: 'Crema de papa, ajo rostizado y aire de cilantro.' },
+    { name: 'Pescado Zarandeado', price: '$540 / kg', desc: 'En nuestra salsa, con tacos de frijol y guacamole.' },
+    { name: 'Ribeye Premium 300g', price: '$510', desc: 'Al término, con salsa tatemada y pico de gallo.' },
+    { name: 'Arrachera 250g', price: '$280', desc: 'Con papas a la francesa, guacamole y salsas.' },
+  ]},
+  { cat: 'Tacos', items: [
+    { name: 'Vampiro de Jaiba', price: '$85', desc: 'Maíz azul, queso fundido y jaiba a la mantequilla.' },
+    { name: 'Taco de Carnitas de Atún', price: '$85', desc: 'Guacamole, atún en manteca y cebolla curtida.' },
+    { name: 'Taco de Pescado Zarandeado', price: '$85', desc: 'Aguacate, cebolla curtida y cilantro.' },
+    { name: 'Chicharrón de Cabeza de Pulpo', price: '$100', desc: 'Costra de queso, aguacate y mayo de habanero.' },
+  ]},
+  { cat: 'Hamburguesas', items: [
+    { name: 'Hamburguesa de Camarón', price: '$195', desc: 'Con tocino, mayo de chipotle y papas a la francesa.' },
+    { name: 'Hamburguesa de Res', price: '$185', desc: 'Mezcla con tocino ahumado, pan brioche y papas.' },
+    { name: 'Papas a la Francesa', price: '$80', desc: 'Orden para acompañar o botanear.' },
+  ]},
+  { cat: 'Los Tragos', items: [
+    { name: 'Cerveza Bichola Artesanal', price: '$75', desc: 'IPA o Blond Ale, hecha en Mazatlán.' },
+    { name: 'Pacífico / Modelo / Corona', price: '$45 – 55', desc: 'Bien frías; ballena Pacífico $85.' },
+    { name: 'Mezcal', price: '$145 – 180', desc: 'Amores Espadín, 400 Conejos o Dulce Infierno.' },
+    { name: 'Tequila', price: '$110 – 165', desc: 'Don Julio 70, Maestro Dobel o Herradura Reposado.' },
+    { name: 'Limonadas y Aguas Frescas', price: '$35 – 40', desc: 'Limonada natural o mineral, agua de jamaica y de pepino.' },
+  ]},
+];
+
+const faqs = [
+  { q: '¿Dónde comer mariscos en Mazatlán?', a: 'Mar de Fondo, en Mariano Escobedo 51, Centro, es una de las mejores opciones para comer mariscos frescos en Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados preparados con la pesca del día.' },
+  { q: '¿Mar de Fondo tiene servicio para llevar?', a: 'Sí. Puedes ordenar para llevar escribiéndonos por WhatsApp al 669 330 6631; preparamos tu pedido al momento con el mismo producto fresco.' },
+  { q: '¿Cuál es el horario de Mar de Fondo?', a: 'Abrimos de martes a jueves de 13:00 a 23:00 y de viernes a domingo de 13:00 a 01:00. Los lunes permanecemos cerrados.' },
+  { q: '¿Se puede reservar mesa en Mar de Fondo?', a: 'Claro. Reserva en segundos por WhatsApp al 669 330 6631. Recomendamos apartar mesa los fines de semana, cuando las mejores noches se llenan rápido.' },
+  { q: '¿Qué tipo de mariscos sirven?', a: 'Trabajamos pescado y marisco fresco del Pacífico: atún, pulpo, camarón, callo, ostión y almeja chocolata, además de cortes a la parrilla y cerveza artesanal Bichola.' },
+];
 ---
 
 <!DOCTYPE html>
@@ -53,8 +113,17 @@ const WHATSAPP = 'https://wa.me/526693306631';
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mar de Fondo · Restaurante de Mariscos en Mazatlán</title>
-  <meta name="description" content="Mariscos, mixología y buen ambiente en Mazatlán. Reserva tu mesa en Mar de Fondo." />
+  <title>Restaurante de mariscos en Mazatlán | Mar de Fondo</title>
+  <meta name="description" content="Mar de Fondo es un restaurante de mariscos frescos en el Centro de Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados con mixología de autor. Reserva por WhatsApp." />
+  <meta name="keywords" content="restaurante de mariscos en Mazatlán, mariscos frescos en Mazatlán, dónde comer mariscos en Mazatlán, ceviches Mazatlán, aguachiles, Mar de Fondo" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:title" content="Restaurante de mariscos en Mazatlán | Mar de Fondo" />
+  <meta property="og:description" content="Mariscos frescos del día, ceviches y aguachiles en el Centro de Mazatlán. Reserva por WhatsApp." />
+  <meta property="og:image" content={photos.patio} />
+  <meta name="geo.region" content="MX-SIN" />
+  <meta name="geo.placename" content="Mazatlán" />
+  <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@graph":[{"@type":"Restaurant","name":"Mar de Fondo","description":"Restaurante de mariscos frescos en el Centro de Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados.","servesCuisine":["Mariscos","Seafood","Mexican"],"priceRange":"$$","telephone":"+52-669-330-6631","url":"https://mardefondo.mx","image":photos.patio,"address":{"@type":"PostalAddress","streetAddress":"Mariano Escobedo 51, Centro","addressLocality":"Mazatlán","addressRegion":"Sinaloa","postalCode":"82000","addressCountry":"MX"},"geo":{"@type":"GeoCoordinates","latitude":23.2061,"longitude":-106.4197},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Tuesday","Wednesday","Thursday"],"opens":"13:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Friday","Saturday","Sunday"],"opens":"13:00","closes":"01:00"}],"acceptsReservations":"True"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Dónde comer mariscos en Mazatlán?","acceptedAnswer":{"@type":"Answer","text":"Mar de Fondo, en Mariano Escobedo 51, Centro, es una de las mejores opciones para comer mariscos frescos en Mazatlán: ceviches, aguachiles, tostadas y camarones zarandeados preparados con la pesca del día."}},{"@type":"Question","name":"¿Mar de Fondo tiene servicio para llevar?","acceptedAnswer":{"@type":"Answer","text":"Sí. Puedes ordenar para llevar escribiéndonos por WhatsApp al 669 330 6631; preparamos tu pedido al momento."}},{"@type":"Question","name":"¿Cuál es el horario de Mar de Fondo?","acceptedAnswer":{"@type":"Answer","text":"Abrimos de martes a jueves de 13:00 a 23:00 y de viernes a domingo de 13:00 a 01:00. Los lunes permanecemos cerrados."}},{"@type":"Question","name":"¿Se puede reservar mesa en Mar de Fondo?","acceptedAnswer":{"@type":"Answer","text":"Claro. Reserva en segundos por WhatsApp al 669 330 6631. Recomendamos apartar mesa los fines de semana."}},{"@type":"Question","name":"¿Qué tipo de mariscos sirven?","acceptedAnswer":{"@type":"Answer","text":"Trabajamos pescado y marisco fresco del Pacífico: atún, pulpo, camarón, callo, ostión y almeja chocolata, además de cortes y cerveza artesanal Bichola."}}]}]})}></script>
 </head>
 <body>
 <div style="--gold:#c9a24b; --gold2:#e0bd6a; --ink:#070a12; --panel:#0c111d; --cream:#f4efe6; --muted:#9aa3b2; background:#070a12; color:#f4efe6; position:relative;">
@@ -85,12 +154,12 @@ const WHATSAPP = 'https://wa.me/526693306631';
 
   <!-- HERO -->
   <section style="position:relative; min-height:100vh; display:flex; align-items:flex-end; justify-content:center; overflow:hidden; padding:130px 24px clamp(56px,9vh,104px);">
-    <div style={`position:absolute; inset:0; background-image:url('${hero.src}'); background-size:cover; background-position:center; animation:mfKen 24s ease-in-out infinite alternate;`}></div>
+    <div role="img" aria-label="Arco de entrada del restaurante de mariscos Mar de Fondo en el Centro de Mazatlán de noche" style={`position:absolute; inset:0; background-image:url(${photos.hero}); background-size:cover; background-position:center; animation:mfKen 24s ease-in-out infinite alternate;`}></div>
     <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,10,18,0.5) 0%, rgba(7,10,18,0.28) 36%, rgba(7,10,18,0.93) 100%);"></div>
     <div style="position:relative; text-align:center; max-width:860px;">
-      <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500; margin-bottom:6px;">Restaurante de Mariscos · Mazatlán</div>
-      <h1 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(60px,12vw,148px); line-height:0.9; margin:14px 0 10px; color:#f4efe6; text-shadow:0 12px 50px rgba(0,0,0,0.55);">Mar de<br><span style="font-style:italic; color:#e0bd6a;">Fondo</span></h1>
-      <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(20px,3vw,30px); color:#e7e1d4; margin:0 auto 34px; max-width:560px; line-height:1.4;">Mariscos, mixología y buen ambiente en Mazatlán</p>
+      <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500; margin-bottom:6px;">Mariscos frescos · El Centro, Mazatlán</div>
+      <h1 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(60px,12vw,148px); line-height:0.9; margin:14px 0 10px; color:#f4efe6; text-shadow:0 12px 50px rgba(0,0,0,0.55);"><span style="display:block; font-family:Jost,sans-serif; font-size:clamp(12px,1.5vw,15px); font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#c9a24b; margin-bottom:20px;">Restaurante de mariscos en Mazatlán</span>Mar de<br><span style="font-style:italic; color:#e0bd6a;">Fondo</span></h1>
+      <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(20px,3vw,30px); color:#e7e1d4; margin:0 auto 34px; max-width:560px; line-height:1.4;">Mariscos frescos del día, ceviches, aguachiles y mixología de autor en el corazón de Mazatlán</p>
       <a href={WHATSAPP} target="_blank" rel="noopener" class="mf-cta-full mf-hero-cta" style="display:inline-flex; align-items:center; justify-content:center; gap:11px; text-decoration:none; padding:18px 34px; min-height:56px; border-radius:999px; background:linear-gradient(180deg,#e0bd6a,#c9a24b); color:#0b0f1a; font-weight:600; font-size:17px; letter-spacing:0.02em; box-shadow:0 16px 40px rgba(201,162,75,0.32); transition:transform .35s ease, box-shadow .35s ease;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#0b0f1a"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.57c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>
         Reservar por WhatsApp
@@ -102,43 +171,63 @@ const WHATSAPP = 'https://wa.me/526693306631';
     </div>
   </section>
 
-  <!-- MENU -->
+  <!-- MENU: FAVORITOS DE LA CASA -->
   <section id="menu" style="padding:clamp(80px,10vw,140px) clamp(20px,5vw,64px); max-width:1240px; margin:0 auto;">
     <div data-reveal style="text-align:center; max-width:640px; margin:0 auto clamp(44px,6vw,68px);">
-      <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">Nuestra carta</div>
-      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(40px,6vw,72px); line-height:1; margin:14px 0 16px; color:#f4efe6;">Menú visual</h2>
-      <p style="color:#9aa3b2; font-size:17px; line-height:1.6; margin:0;">Lo mejor del mar de Mazatlán, preparado al momento. Selecciona una categoría para explorar.</p>
+      <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">Favoritos de la casa</div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(40px,6vw,72px); line-height:1; margin:14px 0 16px; color:#f4efe6;">Lo que el mar nos da</h2>
+      <p style="color:#9aa3b2; font-size:17px; line-height:1.6; margin:0;">Los imprescindibles que no te puedes perder, preparados al momento con el producto del día.</p>
     </div>
-    <div id="mf-tabs" data-reveal style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-bottom:clamp(36px,5vw,54px);">
-      {categories.map((cat, i) => (
-        <button
-          type="button"
-          class={`mf-tab${i === 0 ? ' is-active' : ''}`}
-          data-cat={cat}
-          style="padding:11px 22px; border-radius:999px; cursor:pointer; white-space:nowrap; font-family:Jost,sans-serif; font-size:15px; letter-spacing:0.04em; transition:all .35s ease; border:1px solid rgba(244,239,230,0.16); background:rgba(255,255,255,0.02); color:#cfd4dd; font-weight:400;"
-        >
-          {cat}
-        </button>
-      ))}
-    </div>
-    <div class="mf-menu-grid-wrap">
-      {categories.map((cat, i) => (
-        <div class={`mf-menu-grid mf-dish-panel${i === 0 ? ' is-active' : ''}`} data-panel={cat} style="grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:clamp(18px,2.4vw,30px);">
-          {menu[cat].map((dish) => (
-            <div class="mf-dish-card" style="background:linear-gradient(180deg,#0d131f,#0a0e18); border:1px solid rgba(244,239,230,0.07); border-radius:18px; overflow:hidden; transition:transform .4s ease, border-color .4s ease, box-shadow .4s ease;">
-              <div style="position:relative; height:210px; overflow:hidden;">
-                <div style={`position:absolute; inset:0; background-image:url('${dish.img}'); background-size:cover; background-position:center; transition:transform .8s ease;`} class="mf-zoom"></div>
-                <div style="position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(10,14,24,0.85) 100%);"></div>
-                <span style="position:absolute; top:14px; right:14px; padding:6px 14px; border-radius:999px; background:rgba(7,10,18,0.65); border:1px solid rgba(201,162,75,0.55); color:#e0bd6a; font-weight:600; font-size:15px; backdrop-filter:blur(6px);">{dish.price}</span>
-              </div>
-              <div style="padding:22px 22px 26px;">
-                <h3 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:25px; margin:0 0 8px; color:#f4efe6;">{dish.name}</h3>
-                <p style="color:#9aa3b2; font-size:14.5px; line-height:1.55; margin:0;">{dish.desc}</p>
-              </div>
-            </div>
-          ))}
+    <div class="mf-menu-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:clamp(18px,2.4vw,30px);">
+      {dishes.map((dish) => (
+        <div class="mf-dish-card" style="background:linear-gradient(180deg,#0d131f,#0a0e18); border:1px solid rgba(244,239,230,0.07); border-radius:18px; overflow:hidden; transition:transform .4s ease, border-color .4s ease, box-shadow .4s ease;">
+          <div style="position:relative; height:210px; overflow:hidden;">
+            <div style={`position:absolute; inset:0; background-image:url(${photos[dish.photoKey]}); background-size:cover; background-position:center; transition:transform .8s ease;`} class="mf-zoom"></div>
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(10,14,24,0.85) 100%);"></div>
+            <span style="position:absolute; top:14px; right:14px; padding:6px 14px; border-radius:999px; background:rgba(7,10,18,0.65); border:1px solid rgba(201,162,75,0.55); color:#e0bd6a; font-weight:600; font-size:15px; backdrop-filter:blur(6px);">{dish.price}</span>
+          </div>
+          <div style="padding:22px 22px 26px;">
+            <h3 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:25px; margin:0 0 8px; color:#f4efe6;">{dish.name}</h3>
+            <p style="color:#9aa3b2; font-size:14.5px; line-height:1.55; margin:0;">{dish.desc}</p>
+          </div>
         </div>
       ))}
+    </div>
+  </section>
+
+  <!-- CARTA -->
+  <section id="carta" style="padding:clamp(80px,10vw,130px) clamp(20px,5vw,64px); background:linear-gradient(180deg,#0a0f1b,#070a12);">
+    <div data-reveal style="text-align:center; max-width:680px; margin:0 auto clamp(48px,6vw,72px);">
+      <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">El menú</div>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(40px,6vw,72px); line-height:1; margin:14px 0 14px; color:#f4efe6;">La carta</h2>
+      <p style="color:#9aa3b2; font-size:16px; line-height:1.6; margin:0;">Una selección de la casa. Precios en pesos; el producto cambia según la pesca del día.</p>
+    </div>
+    <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:clamp(30px,4vw,56px);">
+      {menuSections.map((sec) => (
+        <div data-reveal>
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:22px;">
+            <h3 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:25px; color:#e0bd6a; margin:0; white-space:nowrap;">{sec.cat}</h3>
+            <span style="flex:1; height:1px; background:rgba(201,162,75,0.25);"></span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:18px;">
+            {sec.items.map((it) => (
+              <div>
+                <div style="display:flex; align-items:baseline; gap:14px; justify-content:space-between;">
+                  <span style="flex:1; font-size:16px; font-weight:600; color:#f4efe6; letter-spacing:0.01em;">{it.name}</span>
+                  <span style="flex:none; font-family:'Cormorant Garamond',serif; font-size:17.5px; font-weight:600; color:#e0bd6a; text-align:right;">{it.price}</span>
+                </div>
+                <p style="margin:4px 0 0; color:#9aa3b2; font-size:13.5px; line-height:1.5;">{it.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+    <div data-reveal style="text-align:center; margin-top:clamp(48px,6vw,68px);">
+      <a href={WHATSAPP} target="_blank" rel="noopener" class="mf-cta-full" style="display:inline-flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; padding:16px 32px; min-height:54px; border-radius:999px; background:linear-gradient(180deg,#e0bd6a,#c9a24b); color:#0b0f1a; font-weight:600; font-size:16px; box-shadow:0 14px 30px rgba(201,162,75,0.3);">
+        Pedir o reservar por WhatsApp
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#0b0f1a"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+      </a>
     </div>
   </section>
 
@@ -150,9 +239,9 @@ const WHATSAPP = 'https://wa.me/526693306631';
       <p style="color:#9aa3b2; font-size:15px; line-height:1.6; margin:0; display:inline-flex; align-items:center; gap:9px; flex-wrap:wrap; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.6" style="flex:none;"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="#c9a24b"/></svg> Conectada a Instagram — estas fotos se actualizarán solas con tus publicaciones reales.</p>
     </div>
     <div class="mf-gal-grid" style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;">
-      {gallery.map((url) => (
-        <a href="https://www.instagram.com/mardefondo_mzt" target="_blank" rel="noopener" data-reveal style="position:relative; display:block; aspect-ratio:1/1; border-radius:14px; overflow:hidden; text-decoration:none;">
-          <div style={`position:absolute; inset:0; background-image:url('${url}'); background-size:cover; background-position:center; transition:transform .8s ease;`} class="mf-zoom"></div>
+      {gallery.map((g) => (
+        <a href="https://www.instagram.com/mardefondo_mzt" target="_blank" rel="noopener" aria-label={g.alt} data-reveal style="position:relative; display:block; aspect-ratio:1/1; border-radius:14px; overflow:hidden; text-decoration:none;">
+          <div style={`position:absolute; inset:0; background-image:url(${photos[g.photoKey]}); background-size:cover; background-position:center; transition:transform .8s ease;`} class="mf-zoom"></div>
           <div style="position:absolute; inset:0; background:rgba(7,10,18,0); display:flex; align-items:center; justify-content:center; transition:background .4s ease;" class="mf-galov">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f4efe6" stroke-width="1.6" style="opacity:0; transform:scale(0.6); transition:opacity .4s ease, transform .4s ease;" class="mf-galic"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="#f4efe6"/></svg>
           </div>
@@ -165,7 +254,7 @@ const WHATSAPP = 'https://wa.me/526693306631';
   <section id="experiencia" style="padding:clamp(80px,10vw,140px) clamp(20px,5vw,64px); max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:clamp(36px,5vw,70px); align-items:center;">
     <div data-reveal style="position:relative;">
       <div style="position:relative; border-radius:20px; overflow:hidden; aspect-ratio:4/5; box-shadow:0 30px 70px rgba(0,0,0,0.5);">
-        <div style="position:absolute; inset:0; background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1100&q=75'); background-size:cover; background-position:center; animation:mfKen 28s ease-in-out infinite alternate;"></div>
+        <div role="img" aria-label="Ambiente nocturno y barra del restaurante de mariscos Mar de Fondo en Mazatlán" style={`position:absolute; inset:0; background-image:url(${photos.barra}); background-size:cover; background-position:center; animation:mfKen 28s ease-in-out infinite alternate;`}></div>
         <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,10,18,0.25), rgba(7,10,18,0.55));"></div>
       </div>
       <div style="position:absolute; inset:14px; border:1px solid rgba(201,162,75,0.3); border-radius:16px; pointer-events:none;"></div>
@@ -173,7 +262,7 @@ const WHATSAPP = 'https://wa.me/526693306631';
     <div data-reveal>
       <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">La experiencia</div>
       <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-style:italic; font-size:clamp(38px,5.5vw,66px); line-height:1.05; margin:16px 0 22px; color:#f4efe6;">Un lugar para disfrutar sin prisas</h2>
-      <p style="color:#9aa3b2; font-size:17px; line-height:1.7; margin:0 0 38px; max-width:480px;">En Mar de Fondo cada platillo y cada coctel se sirven con calma. Ven por los mariscos, quédate por el ambiente: luz cálida, buena música y el sabor del mar de Mazatlán.</p>
+      <p style="color:#9aa3b2; font-size:17px; line-height:1.7; margin:0 0 38px; max-width:480px;">En Mar de Fondo, restaurante de mariscos en el Centro de Mazatlán, cada platillo y cada coctel se sirven con calma. Patio al aire libre, luz cálida y buena música: ven por los mariscos, quédate por el ambiente y el sabor del mar de Mazatlán.</p>
       <div style="display:flex; flex-direction:column; gap:24px;">
         <div style="display:flex; gap:18px; align-items:flex-start;">
           <div style="flex:none; width:46px; height:46px; border-radius:12px; border:1px solid rgba(201,162,75,0.4); display:flex; align-items:center; justify-content:center; background:rgba(201,162,75,0.06);">
@@ -229,14 +318,36 @@ const WHATSAPP = 'https://wa.me/526693306631';
     </div>
   </section>
 
+  <!-- FAQ -->
+  <section id="faq" style="padding:clamp(72px,9vw,120px) clamp(20px,5vw,64px); background:#0a0f1b;">
+    <div data-reveal style="max-width:840px; margin:0 auto;">
+      <div style="text-align:center; margin-bottom:clamp(40px,5vw,56px);">
+        <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">Preguntas frecuentes</div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(36px,5.4vw,64px); line-height:1.04; margin:14px 0 12px; color:#f4efe6;">Dónde comer mariscos en Mazatlán</h2>
+        <p style="color:#9aa3b2; font-size:16px; line-height:1.6; margin:0;">Todo lo que necesitas saber antes de tu visita a Mar de Fondo.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        {faqs.map((f) => (
+          <details style="background:linear-gradient(180deg,#0d131f,#0a0e18); border:1px solid rgba(244,239,230,0.07); border-radius:14px; padding:2px 24px;">
+            <summary style="cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:22px 0;">
+              <h3 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:clamp(19px,2.4vw,23px); font-weight:600; color:#f4efe6; flex:1;">{f.q}</h3>
+              <span class="mf-faq-plus" aria-hidden="true" style="flex:none; color:#e0bd6a; font-size:28px; font-weight:300; line-height:1; transition:transform .3s ease;">+</span>
+            </summary>
+            <p style="margin:0 0 22px; color:#9aa3b2; font-size:15.5px; line-height:1.7;">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- RESERVAS -->
   <section id="reservas" style="position:relative; padding:clamp(90px,12vw,160px) clamp(20px,5vw,64px); overflow:hidden; text-align:center;">
-    <div style="position:absolute; inset:0; background-image:url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1900&q=75'); background-size:cover; background-position:center;"></div>
+    <div style={`position:absolute; inset:0; background-image:url(${photos.mesa}); background-size:cover; background-position:center;`}></div>
     <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,10,18,0.86), rgba(7,10,18,0.78));"></div>
     <div data-reveal style="position:relative; max-width:720px; margin:0 auto;">
       <div style="font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#c9a24b; font-weight:500;">Reservaciones</div>
       <h2 style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(44px,7vw,92px); line-height:0.98; margin:16px 0 22px; color:#f4efe6;">Reserva tu mesa ahora</h2>
-      <p style="color:#d8d2c5; font-size:18px; line-height:1.6; margin:0 auto 40px; max-width:520px;">Reserva en segundos por WhatsApp. Aparta tu lugar: las mejores noches se llenan rápido.</p>
+      <p style="color:#d8d2c5; font-size:18px; line-height:1.6; margin:0 auto 40px; max-width:520px;">Reserva en uno de los mejores restaurantes de mariscos en Mazatlán. Escríbenos por WhatsApp: las mejores noches se llenan rápido.</p>
       <a href={WHATSAPP} target="_blank" rel="noopener" class="mf-cta-full mf-reservas-cta" style="display:inline-flex; align-items:center; justify-content:center; gap:12px; text-decoration:none; padding:21px 44px; min-height:60px; border-radius:999px; background:linear-gradient(180deg,#e0bd6a,#c9a24b); color:#0b0f1a; font-weight:600; font-size:19px; letter-spacing:0.01em; box-shadow:0 18px 46px rgba(201,162,75,0.4); transition:transform .35s ease, box-shadow .35s ease;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="#0b0f1a"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24s8.23 3.7 8.23 8.24-3.69 8.24-8.23 8.24z"/></svg>
         Reservar por WhatsApp
@@ -253,7 +364,7 @@ const WHATSAPP = 'https://wa.me/526693306631';
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.4" stroke-linecap="round"><path d="M2 9c2.2 0 2.2 2 4.4 2S8.6 9 10.8 9 13 11 15.2 11 17.4 9 19.6 9 21.8 11 22 11"/><path d="M2 14c2.2 0 2.2 2 4.4 2S8.6 14 10.8 14 13 16 15.2 16 17.4 14 19.6 14 21.8 16 22 16"/></svg>
           <span style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; letter-spacing:0.16em; color:#f4efe6;">MAR DE FONDO</span>
         </div>
-        <p style="color:#9aa3b2; font-size:14.5px; line-height:1.7; margin:0; max-width:280px;">Mariscos, mixología y buen ambiente. Un lugar para disfrutar sin prisas en el corazón de Mazatlán.</p>
+        <p style="color:#9aa3b2; font-size:14.5px; line-height:1.7; margin:0; max-width:280px;">Restaurante de mariscos en el Centro de Mazatlán. Ceviches, aguachiles y camarones frescos del día, con mixología de autor.</p>
       </div>
       <div>
         <h4 style="font-size:12px; letter-spacing:0.24em; text-transform:uppercase; color:#c9a24b; margin:0 0 18px; font-weight:600;">Contacto</h4>
@@ -295,17 +406,6 @@ const WHATSAPP = 'https://wa.me/526693306631';
 </div>
 
 <script>
-  // menu category tabs
-  const tabs = document.querySelectorAll<HTMLButtonElement>('.mf-tab');
-  const panels = document.querySelectorAll<HTMLDivElement>('.mf-dish-panel');
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const cat = tab.dataset.cat;
-      tabs.forEach((t) => t.classList.toggle('is-active', t === tab));
-      panels.forEach((p) => p.classList.toggle('is-active', p.dataset.panel === cat));
-    });
-  });
-
   // nav scroll background
   const nav = document.getElementById('mf-nav');
   if (nav) {
